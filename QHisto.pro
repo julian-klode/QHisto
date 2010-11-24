@@ -9,5 +9,5 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += JItemHistModel.hpp JHistModel.hpp JHistView.hpp QHisto.xpm
-SOURCES += JItemHistModel.cpp JHistModel.cpp JHistView.cpp main.cpp
+HEADERS += JColorItemDelegate.hpp JItemHistModel.hpp JHistModel.hpp JHistView.hpp QHisto.xpm
+SOURCES += JColorItemDelegate.cpp JItemHistModel.cpp JHistModel.cpp JHistView.cpp main.cpp

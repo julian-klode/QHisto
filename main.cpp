@@ -25,6 +25,7 @@
 
 #include "JItemHistModel.hpp"
 #include "JHistView.hpp"
+#include "JColorItemDelegate.hpp"
 
 #include <QApplication>
 #include <QWidget>
@@ -71,6 +72,10 @@ int main(int argc, char *argv[])
     layout->addWidget(&tableview, 50);
     layout->addWidget(&button, 50);
     wmain.setLayout(layout);
+
+    /* Really use the color */
+    JColorItemDelegate delegate;
+    tableview.setItemDelegateForColumn (2, &delegate);
 
     wmain.show();
     return app.exec();
