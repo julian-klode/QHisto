@@ -1,3 +1,28 @@
+/* JHistoView.hpp - Interface of the JHistoView class.
+ *
+ * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation files
+ * (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef J_HISTOGRAM_VIEW_H
 #define J_HISTOGRAM_VIEW_H
 
@@ -7,17 +32,67 @@ class QPainter;
 class QPaintEvent;
 class JHistoModel;
 
+/**
+ * \brief Class to display the data from a JHistoModel.
+ *
+ * This widget is responsible for painting the bars corresponding
+ * to the values in the JHistoModel. The widget can be resized,
+ * bars and axises will be resized as well.
+ *
+ * \see JHistoModel
+ */
 class JHistoView : public QWidget {
     Q_OBJECT
-  private:
-    JHistoModel *model;
-    int getY(double value);
-    double getYValueDistance();
-    double paintAxisY(QPainter &painter);
-  public:
+
+public:
+    /**
+     * \brief Constructor for the histogram view.
+     *
+     * \param parent The parent widget.
+     * \see QWidget::QWidget()
+     */
     JHistoView(QWidget *parent=NULL);
-    void paintEvent(QPaintEvent *e);
+
+    /**
+     * \brief Set the model displayed by this view.
+     *
+     * \param model The model, ownership is not transferred.
+     */
     void setModel(JHistoModel *model);
+
+protected:
+    /**
+     * \brief Called when the widget shall be painted.
+     *
+     * \param event The event the causes the painting.
+     * \see QWidget::paintEvent()
+     */
+    void paintEvent(QPaintEvent *event);
+
+private:
+    /** \brief The model of which data is displayed. */
+    JHistoModel *model;
+
+    /**
+     * \brief Get the y-coordinate corresponding to the value.
+     *
+     * Convert between model values and the coordinate system
+     * in the widget.
+     *
+     * \return The y-coordinate at which the rectangle shall be drawn.
+     */
+    int getY(double value);
+
+    /**
+     * \brief Paint a linear scale on the y-axis.
+     *
+     * Paint a scale on the y-axis starting at 0 until the
+     * maximum value stored in the model.
+     *
+     * \return The width of the painted area, including padding
+     * \see JHistoModel::scale()
+     */
+    double paintAxisY(QPainter &painter);
 };
 
 #endif  /* J_HISTOGRAM_VIEW_H */
