@@ -66,16 +66,15 @@ void JHistoView::paintEvent(QPaintEvent*)
         return;
 
     QPainter painter(this);
-    QRect rect;
     const double offset = paintAxisY(painter);
-
-    rect.setWidth(model->size() ? 0.75 * width() / model->size() : 0);
+    const double rectWidth = width() / (1.5 * model->size());
 
     for (int i = 0; i < model->size(); i++) {
-        // Set height and position of the rectangle
-        rect.setHeight(height() - getY(model->getValue(i)));
-        rect.setX(offset + i * rect.width() * 1.25);
-        rect.setY(getY(model->getValue(i)));
+        // Create a new rectangle using QRect(x, y, width, height)
+        QRect rect(offset + i * rectWidth * 1.25,
+                   getY(model->getValue(i)),
+                   rectWidth,
+                   height() - getY(model->getValue(i)));
 
         // Draw the rectangle, write value into it
         painter.setBrush(model->getColor(i));
