@@ -51,7 +51,7 @@ double JHistView::paintAxisY(QPainter &painter)
     for (double i = 0; i <= scale; i = qMin(i + distance, scale)) {
         QString text = QString::number(i, 'g');
 
-        offset = qMax(offset, 1.2 * fontMetrics().width(text));
+        offset = qMax(offset, 1.5 * fontMetrics().width(text));
 
         painter.drawText(0, getY(i), text);
         if (i == scale)
