@@ -42,15 +42,13 @@ int main(int argc, char *argv[])
 
     app.setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
 
-    QStandardItemModel model;
-    JHistView view;
     JItemHistModel hmodel;
+    QAbstractItemModel &model = hmodel;
 
-    hmodel.setItemModel(&model);
+    JHistView view;
+
     hmodel.add();
-    model.setHeaderData(0, Qt::Horizontal, QVariant("Label"), Qt::DisplayRole);
-    model.setHeaderData(1, Qt::Horizontal, QVariant("Wert"), Qt::DisplayRole);
-    model.setHeaderData(2, Qt::Horizontal, QVariant("Farbe"), Qt::DisplayRole);
+
     view.setModel(&hmodel);
 
     view.connect(&model,

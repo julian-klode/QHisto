@@ -29,40 +29,45 @@
 #include <QStandardItemModel>
 #include "JItemHistModel.hpp"
 
-void JItemHistModel::setItemModel(QAbstractItemModel * items)
+JItemHistModel::JItemHistModel()
+    : items(0, 3)
 {
-    this->items = items;
-}
+    items.setHeaderData(0, Qt::Horizontal, QVariant("Label"), Qt::DisplayRole);
+    items.setHeaderData(1, Qt::Horizontal, QVariant("Wert"), Qt::DisplayRole);
+    items.setHeaderData(2, Qt::Horizontal, QVariant("Farbe"), Qt::DisplayRole);
+};
 
 int JItemHistModel::size()
 {
-    return this->items->rowCount();
+    return this->items.rowCount();
 }
 
 void JItemHistModel::add()
 {
-    QStandardItemModel *imodel = qobject_cast < QStandardItemModel * >(items);
-    if (imodel) {
-        QList < QStandardItem * >list;
-        list << new QStandardItem("");
-        list << new QStandardItem("");
-        list << new QStandardItem("green");
-        imodel->appendRow(list);
-    }
+    QList < QStandardItem * >list;
+    list << new QStandardItem("");
+    list << new QStandardItem("");
+    list << new QStandardItem("green");
+    items.appendRow(list);
 }
 
 QString JItemHistModel::getLabel(int index)
 {
-    return items->data(items->index(index, 0), Qt::DisplayRole).toString();
+    return items.data(items.index(index, 0), Qt::DisplayRole).toString();
 }
 
 double JItemHistModel::getValue(int index)
 {
-    return items->data(items->index(index, 1), Qt::DisplayRole).toDouble();
+    return items.data(items.index(index, 1), Qt::DisplayRole).toDouble();
 }
 
 QColor JItemHistModel::getColor(int index)
 {
-    return QColor(items->data(items->index(index, 2), Qt::DisplayRole).
+    return QColor(items.data(items.index(index, 2), Qt::DisplayRole).
                   toString());
+}
+
+JItemHistModel::operator QAbstractItemModel& ()
+{
+    return items;
 }

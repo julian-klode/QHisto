@@ -30,6 +30,7 @@
 
 #include <QString>
 #include <QColor>
+#include <QStandardItemModel>
 
 class QAbstractItemModel;
 
@@ -49,11 +50,10 @@ class JItemHistModel : public JHistModel {
      * column represents the label, the second one represents
      * the value, and the third one represents the color.
      */
-    QAbstractItemModel *items;
+    QStandardItemModel items;
 
 public:
-    /** \brief Set the model containing the items. */
-    void setItemModel(QAbstractItemModel *items);
+    JItemHistModel();
     /** \brief Return the label stored at row 'index', first column. */
     QString getLabel(int index);
     /** \brief Return the value stored at row 'index', second column. */
@@ -62,6 +62,14 @@ public:
     QColor getColor(int index);
     /** \brief Returns the number of rows in the model */
     int size();
+
+    /**
+     * \brief Operator to let the object be a QAbstractItemModel as well.
+     *
+     * When used in constructs where a reference to a QAbstractItemModel
+     * is required, objects of this class automatically become one.
+     */
+    operator QAbstractItemModel& ();
 
 public Q_SLOTS:
     /** \brief Slot that inserts an empty row.
