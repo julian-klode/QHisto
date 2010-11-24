@@ -9,5 +9,5 @@ INCLUDEPATH += .
 QMAKE_CXXFLAGS += -g
 
 # Input
-HEADERS += JItemHistModel.hpp JHistModel.hpp JHistView.hpp
+HEADERS += JItemHistModel.hpp JHistModel.hpp JHistView.hpp QHisto.xpm
 SOURCES += JItemHistModel.cpp JHistModel.cpp JHistView.cpp main.cpp

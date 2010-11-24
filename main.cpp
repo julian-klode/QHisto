@@ -30,12 +30,17 @@
 #include "JHistView.hpp"
 #include <QStandardItemModel>
 #include <QPushButton>
+#define static static const
+#include "QHisto.xpm"
+#undef static
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QWidget wmain;
     QVBoxLayout layout;
+
+    app.setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
 
     QStandardItemModel model;
     JHistView view;
