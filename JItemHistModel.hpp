@@ -43,16 +43,8 @@ class QAbstractItemModel;
 class JItemHistModel : public JHistModel {
     Q_OBJECT
 
-    /**
-     * \brief The model this model wraps.
-     *
-     * This is a 3-column model containing the data. The first
-     * column represents the label, the second one represents
-     * the value, and the third one represents the color.
-     */
-    QStandardItemModel items;
-
 public:
+    /** \brief Construct a new JItemHistModel. */
     JItemHistModel();
     /** \brief Return the label stored at row 'index', first column. */
     QString getLabel(int index);
@@ -78,6 +70,16 @@ public Q_SLOTS:
      * used to expose the data of a QStandardItemModel.
      */
     void add();
+
+private:
+    /**
+     * \brief The model this model wraps.
+     *
+     * This is a 3-column model containing the data. The first
+     * column represents the label, the second one represents
+     * the value, and the third one represents the color.
+     */
+    QStandardItemModel items;
 };
 
 #endif /* J_ITEM_HISTO_MODEL_H */

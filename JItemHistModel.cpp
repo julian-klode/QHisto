@@ -44,7 +44,7 @@ int JItemHistModel::size()
 
 void JItemHistModel::add()
 {
-    QList < QStandardItem * >list;
+    QList <QStandardItem *> list;
     list << new QStandardItem("");
     list << new QStandardItem("");
     list << new QStandardItem("green");
