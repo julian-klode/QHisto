@@ -47,6 +47,7 @@ bool JColorItemDelegate::editorEvent(QEvent *event,
         return false;
 
     QColor color = QColorDialog::getColor(QColor(index.data().toString()));
-    model->setData(index, QVariant(color.name()), Qt::DisplayRole);
+    if (color.isValid())
+        model->setData(index, QVariant(color.name()), Qt::DisplayRole);
     return true;
 }
