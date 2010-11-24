@@ -6,7 +6,6 @@ TEMPLATE = app
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
-QMAKE_CXXFLAGS += -g
 
 # Input
 HEADERS += JItemHistModel.hpp JHistModel.hpp JHistView.hpp QHisto.xpm
