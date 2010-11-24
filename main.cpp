@@ -22,14 +22,17 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+#include "JItemHistModel.hpp"
+#include "JHistView.hpp"
+
 #include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTableView>
-#include "JItemHistModel.hpp"
-#include "JHistView.hpp"
-#include <QStandardItemModel>
 #include <QPushButton>
+
+// Include the xpm, and make the strings const to avoid warnings from C++
 #define static static const
 #include "QHisto.xpm"
 #undef static
@@ -37,34 +40,33 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QWidget wmain;
+    JItemHistModel model;
     QVBoxLayout layout;
+    QWidget wmain;
+    JHistView histoview;
+    QTableView tableview;
+    QPushButton button("Hinzufuegen");
 
     app.setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
 
-    JItemHistModel hmodel;
-    QAbstractItemModel &model = hmodel;
+    histoview.setModel(&model);
+    tableview.setModel(&static_cast<QAbstractItemModel&>(model));
 
-    JHistView view;
+    // Repaint the histogram if the data changes.
+    histoview.connect(&static_cast<QAbstractItemModel&>(model),
+                      SIGNAL(dataChanged(const QModelIndex&,
+                                         const QModelIndex&)),
+                      SLOT(repaint()));
 
-    hmodel.add();
+    // Add a new row if the 'Add' button is clicked.
+    model.connect(&button, SIGNAL(clicked()), SLOT(add()));
 
-    view.setModel(&hmodel);
-
-    view.connect(&model,
-                 SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
-                 SLOT(repaint()));
-
-    QTableView tableview;
-    tableview.setModel(&model);
-
-    QPushButton button("Hinzufuegen");
-    hmodel.connect(&button, SIGNAL(clicked()), SLOT(add()));
-
-    layout.addWidget(&view, 50);
+    // Fill our layout and set it as the layout of the window (TODO: why 50?)
+    layout.addWidget(&histoview, 50);
     layout.addWidget(&tableview, 50);
     layout.addWidget(&button, 50);
     wmain.setLayout(&layout);
+
     wmain.show();
     return app.exec();
 }
