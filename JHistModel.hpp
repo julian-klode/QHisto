@@ -1,4 +1,4 @@
-/* JHistoModel.hpp - Interface of the JHistoModel class.
+/* JHistModel.hpp - Interface of the JHistModel class.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -34,12 +34,12 @@
  * \brief Abstract base class for models representing histograms.
  *
  * This class provides an interface describing a typical histogram. Most
- * of its functions are virtual, but some are not. JHistoView objects can
+ * of its functions are virtual, but some are not. JHistView objects can
  * represent the data from this model visually as histograms.
  *
- * \see JHistoView
+ * \see JHistView
  */
-class JHistoModel : public QObject {
+class JHistModel : public QObject {
     Q_OBJECT
 public:
     /**

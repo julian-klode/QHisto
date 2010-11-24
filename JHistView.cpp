@@ -1,4 +1,4 @@
-/* JHistoView.cpp - Implementation of the JHistoView class.
+/* JHistView.cpp - Implementation of the JHistView class.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -22,28 +22,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#include "JHistoModel.hpp"
-#include "JHistoView.hpp"
+#include "JHistModel.hpp"
+#include "JHistView.hpp"
 #include <QPainter>
 #include <QRect>
 #include <QtGlobal>
 
-JHistoView::JHistoView(QWidget *parent)
+JHistView::JHistView(QWidget *parent)
     : QWidget(parent)
 {
 };
 
-int JHistoView::getY(double value)
+int JHistView::getY(double value)
 {
     return height() - 0.8 * height() * (value / model->scale());
 }
 
-void JHistoView::setModel(JHistoModel * model)
+void JHistView::setModel(JHistModel * model)
 {
     this->model = model;
 }
 
-double JHistoView::paintAxisY(QPainter &painter)
+double JHistView::paintAxisY(QPainter &painter)
 {
     const double scale = model->scale();
     const double distance = scale / 4;
@@ -60,7 +60,7 @@ double JHistoView::paintAxisY(QPainter &painter)
     return offset;
 }
 
-void JHistoView::paintEvent(QPaintEvent*)
+void JHistView::paintEvent(QPaintEvent*)
 {
     if (model->size() == 0)
         return;

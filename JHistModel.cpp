@@ -1,4 +1,4 @@
-/* JHistoModel.cpp - Implementation of parts of the JHistoModel class.
+/* JHistModel.cpp - Implementation of parts of the JHistModel class.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -23,11 +23,11 @@
  * SOFTWARE.
  */
 
-#include "JHistoModel.hpp"
+#include "JHistModel.hpp"
 
 #include <QtGlobal>
 
-double JHistoModel::scale()
+double JHistModel::scale()
 {
     double scale = 0;
     for (int i=0; i<= size(); i++)

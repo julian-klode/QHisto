@@ -1,4 +1,4 @@
-/* JItemHistoModel.hpp - Interface of the JItemHistoModel class.
+/* JItemHistModel.hpp - Interface of the JItemHistModel class.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -26,7 +26,7 @@
 #ifndef J_ITEM_HISTO_MODEL_H
 #define J_ITEM_HISTO_MODEL_H
 
-#include "JHistoModel.hpp"
+#include "JHistModel.hpp"
 
 #include <QString>
 #include <QColor>
@@ -34,12 +34,12 @@
 class QAbstractItemModel;
 
 /**
- * \brief A JHistoModel representing a 3-column QAbstractItemModel.
+ * \brief A JHistModel representing a 3-column QAbstractItemModel.
  *
- * This class represents a 3-column QAbstractItemModel as a JHistoModel,
- * allowing it to be used by JHistoView.
+ * This class represents a 3-column QAbstractItemModel as a JHistModel,
+ * allowing it to be used by JHistView.
  */
-class JItemHistoModel : public JHistoModel {
+class JItemHistModel : public JHistModel {
     Q_OBJECT
 
     /**

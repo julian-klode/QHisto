@@ -1,4 +1,4 @@
-/* JHistoView.hpp - Interface of the JHistoView class.
+/* JHistView.hpp - Interface of the JHistView class.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -30,18 +30,18 @@
 
 class QPainter;
 class QPaintEvent;
-class JHistoModel;
+class JHistModel;
 
 /**
- * \brief Class to display the data from a JHistoModel.
+ * \brief Class to display the data from a JHistModel.
  *
  * This widget is responsible for painting the bars corresponding
- * to the values in the JHistoModel. The widget can be resized,
+ * to the values in the JHistModel. The widget can be resized,
  * bars and axises will be resized as well.
  *
- * \see JHistoModel
+ * \see JHistModel
  */
-class JHistoView : public QWidget {
+class JHistView : public QWidget {
     Q_OBJECT
 
 public:
@@ -51,14 +51,14 @@ public:
      * \param parent The parent widget.
      * \see QWidget::QWidget()
      */
-    JHistoView(QWidget *parent=NULL);
+    JHistView(QWidget *parent=NULL);
 
     /**
      * \brief Set the model displayed by this view.
      *
      * \param model The model, ownership is not transferred.
      */
-    void setModel(JHistoModel *model);
+    void setModel(JHistModel *model);
 
 protected:
     /**
@@ -71,7 +71,7 @@ protected:
 
 private:
     /** \brief The model of which data is displayed. */
-    JHistoModel *model;
+    JHistModel *model;
 
     /**
      * \brief Get the y-coordinate corresponding to the value.
@@ -90,7 +90,7 @@ private:
      * maximum value stored in the model.
      *
      * \return The width of the painted area, including padding
-     * \see JHistoModel::scale()
+     * \see JHistModel::scale()
      */
     double paintAxisY(QPainter &painter);
 };

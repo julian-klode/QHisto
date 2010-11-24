@@ -1,4 +1,4 @@
-/* JItemHistoModel.cpp - Implementation of the JItemHistoModel class.
+/* JItemHistModel.cpp - Implementation of the JItemHistModel class.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -27,19 +27,19 @@
 #include <QColor>
 #include <QStandardItem>
 #include <QStandardItemModel>
-#include "JItemHistoModel.hpp"
+#include "JItemHistModel.hpp"
 
-void JItemHistoModel::setItemModel(QAbstractItemModel * items)
+void JItemHistModel::setItemModel(QAbstractItemModel * items)
 {
     this->items = items;
 }
 
-int JItemHistoModel::size()
+int JItemHistModel::size()
 {
     return this->items->rowCount();
 }
 
-void JItemHistoModel::add()
+void JItemHistModel::add()
 {
     QStandardItemModel *imodel = qobject_cast < QStandardItemModel * >(items);
     if (imodel) {
@@ -51,17 +51,17 @@ void JItemHistoModel::add()
     }
 }
 
-QString JItemHistoModel::getLabel(int index)
+QString JItemHistModel::getLabel(int index)
 {
     return items->data(items->index(index, 0), Qt::DisplayRole).toString();
 }
 
-double JItemHistoModel::getValue(int index)
+double JItemHistModel::getValue(int index)
 {
     return items->data(items->index(index, 1), Qt::DisplayRole).toDouble();
 }
 
-QColor JItemHistoModel::getColor(int index)
+QColor JItemHistModel::getColor(int index)
 {
     return QColor(items->data(items->index(index, 2), Qt::DisplayRole).
                   toString());

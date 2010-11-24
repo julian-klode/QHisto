@@ -26,8 +26,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTableView>
-#include "JItemHistoModel.hpp"
-#include "JHistoView.hpp"
+#include "JItemHistModel.hpp"
+#include "JHistView.hpp"
 #include <QStandardItemModel>
 #include <QPushButton>
 
@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
     QVBoxLayout layout;
 
     QStandardItemModel model;
-    JHistoView view;
-    JItemHistoModel hmodel;
+    JHistView view;
+    JItemHistModel hmodel;
 
     hmodel.setItemModel(&model);
     hmodel.add();
