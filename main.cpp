@@ -46,6 +46,11 @@ int main(int argc, char *argv[])
     QTableView tableview;
     QPushButton button("Hinzufuegen");
 
+    if (argc > 1) {
+        qCritical("Error: QHisto take no other arguments than those defined in "
+                  "qtoptions(7)");
+        return 1;
+    }
     app.setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
 
     histoview.setModel(&model);
