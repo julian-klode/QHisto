@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     JItemHistModel model;
-    QVBoxLayout layout;
     QWidget wmain;
     JHistView histoview;
     QTableView tableview;
@@ -62,10 +61,11 @@ int main(int argc, char *argv[])
     model.connect(&button, SIGNAL(clicked()), SLOT(add()));
 
     // Fill our layout and set it as the layout of the window (TODO: why 50?)
-    layout.addWidget(&histoview, 50);
-    layout.addWidget(&tableview, 50);
-    layout.addWidget(&button, 50);
-    wmain.setLayout(&layout);
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(&histoview, 50);
+    layout->addWidget(&tableview, 50);
+    layout->addWidget(&button, 50);
+    wmain.setLayout(layout);
 
     wmain.show();
     return app.exec();
