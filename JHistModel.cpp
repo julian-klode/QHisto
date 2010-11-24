@@ -27,7 +27,7 @@
 
 #include <QtGlobal>
 
-double JHistModel::scale()
+double JHistModel::maximumValue()
 {
     double scale = 0;
     for (int i=0; i<= size(); i++)

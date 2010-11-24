@@ -35,7 +35,7 @@ JHistView::JHistView(QWidget *parent)
 
 int JHistView::getY(double value)
 {
-    return height() - 0.8 * height() * (value / model->scale());
+    return height() - 0.8 * height() * (value / model->maximumValue());
 }
 
 void JHistView::setModel(JHistModel * model)
@@ -45,7 +45,7 @@ void JHistView::setModel(JHistModel * model)
 
 double JHistView::paintAxisY(QPainter &painter)
 {
-    const double scale = model->scale();
+    const double scale = model->maximumValue();
     const double distance = scale / 4;
     double offset = 0;
     for (double i = 0; i <= scale; i = qMin(i + distance, scale)) {

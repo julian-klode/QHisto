@@ -60,6 +60,10 @@ public:
      */
     void setModel(JHistModel *model);
 
+    ~JHistView() {
+        qDebug("Destructor called...");
+    }
+
 protected:
     /**
      * \brief Called when the widget shall be painted.

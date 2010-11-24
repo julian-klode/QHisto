@@ -94,7 +94,7 @@ public:
      * store the value in a member variable if the maximum value
      * changes and return the value of that member variable here.
      */
-    virtual double scale();
+    virtual double maximumValue();
 };
 
 #endif /* J_HISTO_MODEL_H */
