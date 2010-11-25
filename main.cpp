@@ -23,60 +23,19 @@
  * SOFTWARE.
  */
 
-#include "JItemHistModel.hpp"
-#include "JHistView.hpp"
-#include "JColorItemDelegate.hpp"
-
 #include <QApplication>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QTableView>
-#include <QPushButton>
-
-// Include the xpm, and make the strings const to avoid warnings from C++
-#define static static const
-#include "QHisto.xpm"
-#undef static
+#include "JHistMainWindow.hpp"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    JItemHistModel model;
-    QWidget wmain;
-    JHistView histoview;
-    QTableView tableview;
-    QPushButton button("Hinzufuegen");
-
+    JHistMainWindow window;
     if (argc > 1) {
         qCritical("Error: QHisto take no other arguments than those defined in "
                   "qtoptions(7)");
         return 1;
     }
-    app.setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
 
-    histoview.setModel(&model);
-    tableview.setModel(&static_cast<QAbstractItemModel&>(model));
-
-    // Repaint the histogram if the data changes.
-    histoview.connect(&static_cast<QAbstractItemModel&>(model),
-                      SIGNAL(dataChanged(const QModelIndex&,
-                                         const QModelIndex&)),
-                      SLOT(repaint()));
-
-    // Add a new row if the 'Add' button is clicked.
-    model.connect(&button, SIGNAL(clicked()), SLOT(add()));
-
-    // Fill our layout and set it as the layout of the window (TODO: why 50?)
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(&histoview, 50);
-    layout->addWidget(&tableview, 50);
-    layout->addWidget(&button, 50);
-    wmain.setLayout(layout);
-
-    /* Really use the color */
-    JColorItemDelegate delegate;
-    tableview.setItemDelegateForColumn (2, &delegate);
-
-    wmain.show();
+    window.show();
     return app.exec();
 }
