@@ -95,6 +95,15 @@ public:
      * changes and return the value of that member variable here.
      */
     virtual double maximumValue();
+
+public Q_SLOTS:
+    /**
+     * \brief Add a new item to the model.
+     *
+     * May be connected to a button in the user interface to
+     * insert a new model; or something similar.
+     */
+    virtual void add() = 0;
 };
 
 #endif /* J_HISTO_MODEL_H */
