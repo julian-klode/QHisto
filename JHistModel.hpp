@@ -115,6 +115,19 @@ public Q_SLOTS:
      * insert a new model; or something similar.
      */
     virtual void add() = 0;
+
+protected:
+    /**
+     * \brief Insert a new row into the model.
+     *
+     * Insert a new row into the model, using the data given
+     * via the arguments.
+     *
+     * \param label The label of the new row.
+     * \param value The value. May change the result of maximumValue().
+     * \param color The color the bar should have.
+     */
+    virtual void add(QString label, double value, QColor color) = 0;
 };
 
 #endif /* J_HISTO_MODEL_H */

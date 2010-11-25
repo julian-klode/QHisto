@@ -64,12 +64,22 @@ public:
     operator QAbstractItemModel& ();
 
 public Q_SLOTS:
-    /** \brief Slot that inserts an empty row.
+    /**
+     * \brief Slot that inserts an empty row.
      *
      * Add a new empty row. This function only works if the model is
      * used to expose the data of a QStandardItemModel.
      */
     void add();
+
+protected:
+    /**
+     * \brief Create a new row.
+     *
+     * Add a new pre-populated row. This is helpful in
+     * case data from somewhere else shall be read.
+     */
+    void add(QString label, double value, QColor color);
 
 private:
     /**
