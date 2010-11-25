@@ -4,6 +4,9 @@
 #undef static
 
 #include "JHistMainWindow.hpp"
+#include <QMessageBox>
+#include <QMenuBar>
+#include <QMenu>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("Add")
@@ -23,6 +26,17 @@ JHistMainWindow::JHistMainWindow()
     layout->addWidget(&histview, 50);
     layout->addWidget(&tableview, 50);
     layout->addWidget(&button_add, 50);
+    /* FIXME: Must be deleted */
+    QMenuBar *menuBar = new QMenuBar;
+    QMenu *help = menuBar->addMenu(tr("&Help"));
+    help->addAction(QIcon::fromTheme("help-about"), "&About", this, SLOT(about()));
+    layout->setMenuBar(menuBar);
     setLayout(layout);
     tableview.setItemDelegateForColumn (2, &color_delegate);
+}
+
+void JHistMainWindow::about()
+{
+    QMessageBox::about(this, tr("QHisto"),
+                       tr("<b>QHisto</b> draws histograms."));
 }

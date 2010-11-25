@@ -13,14 +13,8 @@ class JHistMainWindow : public QWidget {
 
 public:
     JHistMainWindow();
-
-/*
 private Q_SLOTS:
-
-    void open();
-    void save();
     void about();
-*/
 private:
     JItemHistModel model;
     JHistView histview;
