@@ -63,8 +63,7 @@ double JItemHistModel::getValue(int index)
 
 QColor JItemHistModel::getColor(int index)
 {
-    return QColor(items.data(items.index(index, 2), Qt::DisplayRole).
-                  toString());
+    return items.data(items.index(index, 2),Qt::DisplayRole).value<QColor>();
 }
 
 JItemHistModel::operator QAbstractItemModel& ()

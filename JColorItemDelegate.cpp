@@ -34,7 +34,7 @@ void JColorItemDelegate::paint(QPainter *painter,
                                const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
-    painter->setBrush(QColor(index.data().toString()));
+    painter->setBrush(index.data().value<QColor>());
     painter->drawRect(option.rect);
 }
 
@@ -46,8 +46,8 @@ bool JColorItemDelegate::editorEvent(QEvent *event,
     if (event->type() != QEvent::MouseButtonPress)
         return false;
 
-    QColor color = QColorDialog::getColor(QColor(index.data().toString()));
+    QColor color = QColorDialog::getColor(index.data().value<QColor>());
     if (color.isValid())
-        model->setData(index, QVariant(color.name()), Qt::DisplayRole);
+        model->setData(index, QVariant::fromValue(color), Qt::DisplayRole);
     return true;
 }
