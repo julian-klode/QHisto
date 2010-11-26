@@ -30,10 +30,13 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     JHistMainWindow window;
-    if (argc > 1) {
+
+    if (argc > 2) {
         qCritical("Error: QHisto take no other arguments than those defined in "
                   "qtoptions(7)");
         return 1;
+    } else if (argc == 2) {
+        window.open(argv[1]);
     }
 
     window.show();

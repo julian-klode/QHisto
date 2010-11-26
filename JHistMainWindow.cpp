@@ -8,6 +8,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QItemSelectionModel>
+#include <QFileDialog>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("Add"), button_remove("Remove")
@@ -37,6 +38,13 @@ JHistMainWindow::JHistMainWindow()
     buttons->addWidget(&button_remove, 50);
     /* FIXME: Must be deleted */
     QMenuBar *menuBar = new QMenuBar;
+    QMenu *file = menuBar->addMenu(tr("&File"));
+    file->addAction(QIcon::fromTheme("document-open"), "&Open", this, SLOT(open()),
+                    QKeySequence(tr("Ctrl+O", "File|Open")));
+    file->addAction(QIcon::fromTheme("document-save"), "&Save", this, SLOT(save()),
+                    QKeySequence(tr("Ctrl+S", "File|Save")));
+    file->addAction(QIcon::fromTheme("document-save-as"), "Save &As", this, SLOT(saveAs()),
+                    QKeySequence(tr("Ctrl+Shift+S", "File|Save As")));
     QMenu *help = menuBar->addMenu(tr("&Help"));
     help->addAction(QIcon::fromTheme("help-about"), "&About", this, SLOT(about()));
     layout->setMenuBar(menuBar);
@@ -56,4 +64,64 @@ void JHistMainWindow::remove()
     QModelIndexList index = selection->selectedRows();
     for (int i=0; i < index.size(); i++)
         static_cast<QAbstractItemModel&>(model).removeRow(index[i].row());
+}
+
+void JHistMainWindow::open(QString defName)
+{
+    if (defName.isEmpty())
+        fileName = QFileDialog::getOpenFileName(this, tr("Save File"), "",
+                                                tr("QHisto files (*.qhisto)"));
+    else
+        fileName = defName;
+
+    if (fileName.isEmpty())
+        return;
+    try {
+        model.readFromFile(fileName);
+    } catch (QString eString) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::critical(this, tr("Error while opening"), eString,
+                                      QMessageBox::Retry | QMessageBox::Ignore);
+
+        if (reply == QMessageBox::Retry)
+            return open(fileName);
+    }
+    histview.repaint();
+}
+
+void JHistMainWindow::save()
+{
+    if (fileName.isEmpty())
+        return saveAs();
+
+    try {
+        model.writeToFile(fileName);
+    } catch (QString eString) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::critical(this, tr("Error while saving"), eString,
+                                      QMessageBox::Retry | QMessageBox::Ignore);
+        if (reply == QMessageBox::Retry)
+            return save();
+    }
+}
+
+void JHistMainWindow::saveAs()
+{
+    fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "",
+                                            tr("QHisto files (*.qhisto)"));
+    if (fileName.isEmpty())
+        return;
+    if (!fileName.endsWith(".qhisto"))
+        fileName += ".qhisto";
+
+    try {
+        model.writeToFile(fileName);
+    } catch (QString eString) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::critical(this, tr("Error while saving"), eString,
+                                      QMessageBox::Retry | QMessageBox::Ignore);
+
+        if (reply == QMessageBox::Retry)
+            return saveAs();
+    }
 }
