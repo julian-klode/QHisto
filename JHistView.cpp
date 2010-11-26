@@ -90,8 +90,10 @@ void JHistView::paintEvent(QPaintEvent*)
         rect.setHeight(fontMetrics().height());
         rect.moveTop(rect.top() - 1.1 * rect.height());
         painter.drawText(rect, Qt::AlignCenter, model->getLabel(i));
-    }
 
-    painter.setPen(Qt::DotLine);
-    painter.drawLine (offset, getY(0), width(), getY(0));
+        // Draw an x-axis
+        if (i > 0)
+            painter.drawLine(rect.left() - rectWidth * 0.25, getY(0),
+                             rect.left(), getY(0));
+    }
 }
