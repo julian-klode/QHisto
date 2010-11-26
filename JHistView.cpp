@@ -49,19 +49,22 @@ void JHistView::setModel(JHistModel * model)
 double JHistView::paintAxisY(QPainter &painter)
 {
     const double scale = model->maximumValue() - model->minimumValue();
+    const double maximum = model->maximumValue();
     const double distance = scale / 4;
     double offset = 0;
-    for (double i = model->minimumValue(); i <= scale; i =
-         qMin(i + distance, scale)) {
+
+    for (double i = model->minimumValue(); i <= maximum; i =
+         qMin(i + distance, maximum)) {
         QString text = QString::number(i, 'g');
 
         offset = qMax(offset, 1.5 * fontMetrics().width(text));
 
         painter.drawText(0, getY(i), text);
-        if (i == scale)
+        if (i == maximum)
             break;
     }
-    painter.drawLine(offset, 0, offset, getY(model->minimumValue()));
+    painter.drawLine(offset, getY(model->maximumValue()),
+                     offset, getY(model->minimumValue()));
     return offset + 1;
 }
 
