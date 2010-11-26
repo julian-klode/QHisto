@@ -45,6 +45,9 @@ JHistMainWindow::JHistMainWindow()
                     QKeySequence(tr("Ctrl+S", "File|Save")));
     file->addAction(QIcon::fromTheme("document-save-as"), "Save &As", this, SLOT(saveAs()),
                     QKeySequence(tr("Ctrl+Shift+S", "File|Save As")));
+    file->addSeparator();
+    file->addAction(QIcon::fromTheme("application-exit"), "&Quit", this, SLOT(close()),
+                    QKeySequence(tr("Ctrl+Q", "File|Quit")));
     QMenu *help = menuBar->addMenu(tr("&Help"));
     help->addAction(QIcon::fromTheme("help-about"), "&About", this, SLOT(about()));
     layout->setMenuBar(menuBar);
