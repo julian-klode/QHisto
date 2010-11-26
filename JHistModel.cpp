@@ -52,8 +52,8 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
         throw device.errorString();
     while ((line = device.readLine()).size()) {
         QList<QByteArray> list = line.left(line.size() - 1).split('\t');
-        add(list[0].replace("\\t", "\t"), list[1].toDouble(),
-            QColor(QString(list[2])));
+        add(QString::fromUtf8(list[0].replace("\\t", "\t")),
+            list[1].toDouble(), QColor(QString(list[2])));
     }
 }
 
@@ -63,11 +63,11 @@ void JHistModel::writeToFile(const QString &filename) throw (QString)
     if (!device.open(QIODevice::WriteOnly))
         throw device.errorString();
     for (int i=0; i < size(); i++) {
-        device.write(getLabel(i).replace("\t", "\\t").toAscii());
+        device.write(getLabel(i).replace("\t", "\\t").toUtf8());
         device.write("\t");
-        device.write(QString::number(getValue(i)).toAscii());
+        device.write(QString::number(getValue(i)).toUtf8());
         device.write("\t");
-        device.write(getColor(i).name().toAscii());
+        device.write(getColor(i).name().toUtf8());
         device.write("\n");
     }
-};
+}
