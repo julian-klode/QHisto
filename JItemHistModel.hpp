@@ -81,6 +81,13 @@ protected:
      */
     void add(QString label, double value, QColor color);
 
+    /**
+     * \brief Remove all rows.
+     *
+     * This basically calls clear() on the storage.
+     */
+    void clear();
+
 private:
     /**
      * \brief The model this model wraps.

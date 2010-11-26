@@ -158,6 +158,8 @@ public Q_SLOTS:
      */
     virtual void add() = 0;
 
+    /** \brief Remove all items from the model. */
+    virtual void clear() = 0;
 protected:
     /**
      * \brief Insert a new row into the model.

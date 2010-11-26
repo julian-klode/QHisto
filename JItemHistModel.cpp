@@ -42,6 +42,11 @@ int JItemHistModel::size()
     return this->items.rowCount();
 }
 
+void JItemHistModel::clear()
+{
+    items.clear();
+}
+
 void JItemHistModel::add(QString label, double value, QColor color)
 {
     QList <QStandardItem *> list;
