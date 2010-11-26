@@ -91,4 +91,7 @@ void JHistView::paintEvent(QPaintEvent*)
         rect.moveTop(rect.top() - 1.1 * rect.height());
         painter.drawText(rect, Qt::AlignCenter, model->getLabel(i));
     }
+
+    painter.setPen(Qt::DotLine);
+    painter.drawLine (offset, getY(0), width(), getY(0));
 }
