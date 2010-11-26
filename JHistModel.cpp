@@ -50,6 +50,8 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
     QByteArray line;
     if (!device.open(QIODevice::ReadOnly))
         throw device.errorString();
+
+    clear();
     while ((line = device.readLine()).size()) {
         QList<QByteArray> list = line.left(line.size() - 1).split('\t');
         add(QString::fromUtf8(list[0].replace("\\t", "\t")),

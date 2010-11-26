@@ -72,6 +72,13 @@ public Q_SLOTS:
      */
     void add();
 
+    /**
+     * \brief Remove all rows.
+     *
+     * This basically calls clear() on the storage.
+     */
+    void clear();
+
 protected:
     /**
      * \brief Create a new row.
@@ -80,13 +87,6 @@ protected:
      * case data from somewhere else shall be read.
      */
     void add(QString label, double value, QColor color);
-
-    /**
-     * \brief Remove all rows.
-     *
-     * This basically calls clear() on the storage.
-     */
-    void clear();
 
 private:
     /**

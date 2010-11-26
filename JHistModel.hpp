@@ -116,6 +116,9 @@ public:
      * in the SVG Specification. In general any string recognized
      * by QColor is supported.
      *
+     * This function deletes all previous entries from the model,
+     * use it with care.
+     *
      * If an error occurred, a QString describing the error is
      * thrown and it is undefined whether anything has been
      * read from the file.
