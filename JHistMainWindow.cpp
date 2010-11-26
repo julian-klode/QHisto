@@ -9,6 +9,7 @@
 #include <QMenu>
 #include <QItemSelectionModel>
 #include <QFileDialog>
+#include <QApplication>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("Add"), button_remove("Remove")
@@ -50,7 +51,10 @@ JHistMainWindow::JHistMainWindow()
     file->addAction(QIcon::fromTheme("application-exit"), "&Quit", this, SLOT(close()),
                     QKeySequence(tr("Ctrl+Q", "File|Quit")));
     QMenu *help = menuBar->addMenu(tr("&Help"));
-    help->addAction(QIcon::fromTheme("help-about"), "&About", this, SLOT(about()));
+    help->addAction(QIcon::fromTheme("help-about-qt"), "About &Qt", qApp,
+                    SLOT(aboutQt()));
+    help->addAction(QIcon::fromTheme("help-about"), "&About", this,
+                    SLOT(about()));
     layout->setMenuBar(menuBar);
     setLayout(layout);
     tableview.setItemDelegateForColumn (2, &color_delegate);
