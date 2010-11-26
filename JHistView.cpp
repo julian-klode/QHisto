@@ -61,7 +61,8 @@ double JHistView::paintAxisY(QPainter &painter)
         if (i == scale)
             break;
     }
-    return offset;
+    painter.drawLine(offset, 0, offset, getY(model->minimumValue()));
+    return offset + 1;
 }
 
 void JHistView::paintEvent(QPaintEvent*)
