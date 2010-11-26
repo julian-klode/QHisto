@@ -41,6 +41,7 @@ JHistMainWindow::JHistMainWindow()
     QMenu *file = menuBar->addMenu(tr("&File"));
     file->addAction(QIcon::fromTheme("document-open"), "&Open", this, SLOT(open()),
                     QKeySequence(tr("Ctrl+O", "File|Open")));
+    file->addSeparator();
     file->addAction(QIcon::fromTheme("document-save"), "&Save", this, SLOT(save()),
                     QKeySequence(tr("Ctrl+S", "File|Save")));
     file->addAction(QIcon::fromTheme("document-save-as"), "Save &As", this, SLOT(saveAs()),
