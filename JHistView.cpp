@@ -72,11 +72,15 @@ void JHistView::paintEvent(QPaintEvent*)
 
     QPainter painter(this);
     const double offset = paintAxisY(painter);
-    const double rectWidth = width() / (1.5 * model->size());
+    // Relative distance between two rectangles
+    const double rectDist = 0.05;
+    // width of one rectangle
+    const double rectWidth = ((width() - offset) /
+                              ((1 + rectDist) * model->size()));
 
     for (int i = 0; i < model->size(); i++) {
         // Create a new rectangle using QRect(x, y, width, height)
-        QRect rect(offset + i * rectWidth * 1.25,
+        QRect rect(offset + (i+1) * rectDist * rectWidth  + i * rectWidth,
                    getY(model->getValue(i)),
                    rectWidth,
                    getY(0) - getY(model->getValue(i)));
@@ -99,9 +103,8 @@ void JHistView::paintEvent(QPaintEvent*)
         rect.moveTop(rect.top() - 1.1 * rect.height());
         painter.drawText(rect, Qt::AlignCenter, model->getLabel(i));
 
-        // Draw an x-axis
-        if (i > 0)
-            painter.drawLine(rect.left() - rectWidth * 0.25, getY(0),
-                             rect.left(), getY(0));
+        // Draw an x-axis filling the distance to the left.
+        painter.drawLine(rect.left() - rectWidth * rectDist, getY(0),
+                         rect.left(), getY(0));
     }
 }
