@@ -53,6 +53,9 @@ JHistMainWindow::JHistMainWindow()
     file->addAction(QIcon::fromTheme("document-save-as"), "Save &As", this, SLOT(saveAs()),
                     QKeySequence(tr("Ctrl+Shift+S", "File|Save As")));
     file->addSeparator();
+    file->addAction(QIcon::fromTheme("document-print"), "&Print", this, SLOT(print()),
+                    QKeySequence(tr("Ctrl+P", "File|Print")));
+    file->addSeparator();
     file->addAction(QIcon::fromTheme("application-exit"), "&Quit", this, SLOT(close()),
                     QKeySequence(tr("Ctrl+Q", "File|Quit")));
     QMenu *help = menuBar->addMenu(tr("&Help"));
@@ -144,4 +147,12 @@ void JHistMainWindow::saveAs()
         if (reply == QMessageBox::Retry)
             return saveAs();
     }
+}
+
+void JHistMainWindow::print()
+{
+    QPrintPreviewDialog dialog;
+    connect(&dialog, SIGNAL(paintRequested(QPrinter*)), &histview,
+            SLOT(paintOnTo(QPrinter*)));
+    dialog.exec();
 }

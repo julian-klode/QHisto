@@ -27,8 +27,11 @@
 #define J_HISTOGRAM_VIEW_H
 
 #include <QWidget>
+#include <QPainter>
+#include <QFontMetrics>
 
 class QPainter;
+class QPrinter;
 class QPaintEvent;
 class JHistModel;
 
@@ -69,9 +72,19 @@ protected:
      */
     void paintEvent(QPaintEvent *event);
 
+public Q_SLOTS:
+    /** \brief Paint onto the given device. */
+    void paintOnTo(QPaintDevice *device);
+    /** \brief Specialization of paintOnTo() for printers. */
+    void paintOnTo(QPrinter *device);
+
 private:
     /** \brief The model of which data is displayed. */
     JHistModel *model;
+    /** \brief The device to paint to (this or argument of paintOnTo()) */
+    QPaintDevice *device;
+    /** \brief The painter does the painting on the device. */
+    QPainter painter;
 
     /**
      * \brief Get the y-coordinate corresponding to the value.
@@ -93,6 +106,13 @@ private:
      * \see JHistModel::scale()
      */
     double paintAxisY(QPainter &painter);
+
+    /** \brief Wrapper function for height. */
+    int height() { return device->height(); }
+    /** \brief Wrapper function for width. */
+    int width() { return device->width(); }
+    /** \brief Wrapper function for fontMetrics */
+    QFontMetrics fontMetrics() { return painter.fontMetrics(); }
 };
 
 #endif  /* J_HISTOGRAM_VIEW_H */

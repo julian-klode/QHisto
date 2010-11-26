@@ -27,6 +27,7 @@
 #include <QPainter>
 #include <QRect>
 #include <QtGlobal>
+#include <QPrinter>
 
 JHistView::JHistView(QWidget *parent)
     : QWidget(parent)
@@ -68,12 +69,19 @@ double JHistView::paintAxisY(QPainter &painter)
     return offset + 1;
 }
 
-void JHistView::paintEvent(QPaintEvent*)
+void JHistView::paintOnTo(QPrinter *device)
+{
+    return paintOnTo(static_cast<QPaintDevice*>(device));
+}
+
+void JHistView::paintOnTo(QPaintDevice *device)
 {
     if (model->size() == 0)
         return;
 
-    QPainter painter(this);
+    this->device = device;
+    painter.begin(this->device);
+
     const double offset = paintAxisY(painter);
     // Relative distance between two rectangles
     const double rectDist = 0.05;
@@ -110,4 +118,10 @@ void JHistView::paintEvent(QPaintEvent*)
         painter.drawLine(rect.left() - rectWidth * rectDist, getY(0),
                          rect.left(), getY(0));
     }
+    painter.end();
+}
+
+void JHistView::paintEvent(QPaintEvent*)
+{
+    paintOnTo(this);
 }

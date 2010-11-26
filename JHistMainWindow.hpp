@@ -7,18 +7,21 @@
 #include <QVBoxLayout>
 #include <QTableView>
 #include <QPushButton>
+#include <QPrintPreviewDialog>
 
 class JHistMainWindow : public QWidget {
     Q_OBJECT
 
 public:
     JHistMainWindow();
+
 private Q_SLOTS:
     void about();
     void clear();
     void remove();
     void save();
     void saveAs();
+    void print();
 public Q_SLOTS:
     /**
      * \brief Open a file for reading.
