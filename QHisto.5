@@ -1,0 +1,51 @@
+.TH QHISTO 5 "2010-11-26" "v1" "Histogram display"
+
+.SH NAME
+QHisto \- Description of the qhisto file format
+
+.SH DESCRIPTION
+The QHisto file format consists of one or more lines,
+each separated by a line feed ('\\n').
+
+.SS Line format
+Each line consists of three fields, separated by a tabulator, that
+is:
+
+.RS
+\fIlabel\fR\\t\fIvalue\fR\\t\fIcolor\fR.
+.RE
+
+The fields have the following meaning:
+.RS
+.TP
+.I label
+A short description of the value that will be displayed alongside
+with it.
+.TP
+.I value
+A number representing of the value. This can be any expression that
+converts to a double number; for example: '1.0', '1e10', '-1'.
+.TP
+.I color
+A string specifying a color. This can either be a hexanumerical
+identifier prefixed by # or a name. For a full list of supported
+options, see \fIhttp://doc.qt.nokia.com/qcolor.html#setNamedColor\fP.
+.RE
+
+.SS ESCAPING OF SPECIAL CHARACTERS
+With the exception of the tabulator character and the newline
+character, a field may contain any printable character. If a
+tabulator character is part of a label, it must be escaped
+on write using the two-byte '\\t' notation known from C and
+converted back to a tabulator on read.
+
+.SS ENCODING
+The encoding of a QHisto file is UTF-8.
+
+.SH AUTHOR
+QHisto and its manual page were written by Julian Andres Klode
+<jak@jak-linux.org>.
+
+.SH "SEE ALSO"
+.BR QHisto (1),
+.BR qtoptions (7)
