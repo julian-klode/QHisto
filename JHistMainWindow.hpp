@@ -15,10 +15,12 @@ public:
     JHistMainWindow();
 private Q_SLOTS:
     void about();
+    void remove();
 private:
     JItemHistModel model;
     JHistView histview;
     QTableView tableview;
     QPushButton button_add;
+    QPushButton button_remove;
     JColorItemDelegate color_delegate;
 };
