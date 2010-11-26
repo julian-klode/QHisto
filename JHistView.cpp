@@ -35,8 +35,11 @@ JHistView::JHistView(QWidget *parent)
 
 int JHistView::getY(double value)
 {
-    return height() - 0.8 * height() * (value / model->maximumValue());
+    const double dist = model->maximumValue() - model->minimumValue();
+    return (0.8 * height() * (model->maximumValue() - value) / dist
+            + fontMetrics().height() );
 }
+
 
 void JHistView::setModel(JHistModel * model)
 {
@@ -45,10 +48,11 @@ void JHistView::setModel(JHistModel * model)
 
 double JHistView::paintAxisY(QPainter &painter)
 {
-    const double scale = model->maximumValue();
+    const double scale = model->maximumValue() - model->minimumValue();
     const double distance = scale / 4;
     double offset = 0;
-    for (double i = 0; i <= scale; i = qMin(i + distance, scale)) {
+    for (double i = model->minimumValue(); i <= scale; i =
+         qMin(i + distance, scale)) {
         QString text = QString::number(i, 'g');
 
         offset = qMax(offset, 1.5 * fontMetrics().width(text));
@@ -74,7 +78,7 @@ void JHistView::paintEvent(QPaintEvent*)
         QRect rect(offset + i * rectWidth * 1.25,
                    getY(model->getValue(i)),
                    rectWidth,
-                   height() - getY(model->getValue(i)));
+                   getY(0) - getY(model->getValue(i)));
 
         // Draw the rectangle, write value into it
         painter.setBrush(model->getColor(i));
