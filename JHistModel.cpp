@@ -34,3 +34,11 @@ double JHistModel::maximumValue()
         scale = qMax(scale, getValue(i));
     return scale;
 }
+
+double JHistModel::minimumValue()
+{
+    double scale = 0;
+    for (int i=0; i<= size(); i++)
+        scale = qMin(scale, getValue(i));
+    return scale;
+}

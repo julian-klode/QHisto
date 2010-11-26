@@ -96,6 +96,17 @@ public:
      */
     virtual double maximumValue();
 
+    /**
+     * \brief The minimum value stored in this model.
+     *
+     * Subclasses should reimplement this function if possible, this
+     * basic implementation queries the whole list for the minimum
+     * value and thus has O(n) complexity. Implementations should
+     * store the value in a member variable if the minimum value
+     * changes and return the value of that member variable here.
+     */
+    virtual double minimumValue();
+
 public Q_SLOTS:
     /**
      * \brief Add a new item to the model.
