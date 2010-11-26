@@ -12,7 +12,7 @@
 #include <QApplication>
 
 JHistMainWindow::JHistMainWindow()
-    : button_add("Add"), button_remove("Remove")
+    : button_add("&Add"), button_remove("&Remove")
 {
     setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
     histview.setModel(&model);
