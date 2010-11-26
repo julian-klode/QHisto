@@ -15,6 +15,7 @@ public:
     JHistMainWindow();
 private Q_SLOTS:
     void about();
+    void clear();
     void remove();
     void save();
     void saveAs();

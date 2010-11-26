@@ -44,7 +44,7 @@ int JItemHistModel::size()
 
 void JItemHistModel::clear()
 {
-    items.clear();
+    items.removeRows(0, size());
 }
 
 void JItemHistModel::add(QString label, double value, QColor color)

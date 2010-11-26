@@ -40,6 +40,9 @@ JHistMainWindow::JHistMainWindow()
     /* FIXME: Must be deleted */
     QMenuBar *menuBar = new QMenuBar;
     QMenu *file = menuBar->addMenu(tr("&File"));
+    file->addAction(QIcon::fromTheme("document-new"), "&New", this, SLOT(clear()),
+                    QKeySequence(tr("Ctrl+N", "File|New")));
+    file->addSeparator();
     file->addAction(QIcon::fromTheme("document-open"), "&Open", this, SLOT(open()),
                     QKeySequence(tr("Ctrl+O", "File|Open")));
     file->addSeparator();
@@ -111,6 +114,13 @@ void JHistMainWindow::save()
         if (reply == QMessageBox::Retry)
             return save();
     }
+}
+
+void JHistMainWindow::clear()
+{
+    model.clear();
+    fileName = "";
+    histview.repaint();
 }
 
 void JHistMainWindow::saveAs()
