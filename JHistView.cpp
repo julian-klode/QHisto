@@ -80,6 +80,13 @@ void JHistView::paintEvent(QPaintEvent*)
                    rectWidth,
                    getY(0) - getY(model->getValue(i)));
 
+        // The height is negative, normalize the rectangle
+        if (rect.height() < 0) {
+            rect = rect.normalized();
+            // TODO: Why: move to x-axis, it otherwise differs by one pixel.
+            rect.moveTop(getY(0));
+        }
+
         // Draw the rectangle, write value into it
         painter.setBrush(model->getColor(i));
         painter.drawRect(rect);
