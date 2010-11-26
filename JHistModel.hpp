@@ -107,6 +107,48 @@ public:
      */
     virtual double minimumValue();
 
+    /**
+     * \brief Read the model data from a file.
+     *
+     * Read files in the format used by writeToFile(). In addition
+     * to the format written by writeToFile(), this function also
+     * supports the use of names to specify colors, as specified
+     * in the SVG Specification. In general any string recognized
+     * by QColor is supported.
+     *
+     * If an error occurred, a QString describing the error is
+     * thrown and it is undefined whether anything has been
+     * read from the file.
+     *
+     * \param filename The name of the file to be read from.
+     * \throw A QString describing the error.
+     * \see QColor, writeToFile,
+     *      http://www.w3.org/TR/SVG/types.html#ColorKeywords
+     */
+    void readFromFile(const QString &filename) throw(QString);
+
+    /**
+     * \brief Write the model data to a file.
+     *
+     * Store the model data into a file. Each line represents
+     * one row and contains at least 3 tab-separated fields. The
+     * first field is the label, the second one is the value, and
+     * the third one the color. More fields are not specified.
+     *
+     * If the label contains a tabulator, it is escaped using
+     * standard C conventions. The color is represented as
+     * by its hexadecimal specifier prefixed by "#", for example,
+     * red is represented by "#ff0000".
+     *
+     * If an error occurred, a QString describing the error is
+     * thrown and it is undefined whether anything has been
+     * written to the file.
+     *
+     * \param filename The name of the file to write to.
+     * \throw A QString describing the error.
+     */
+    void writeToFile(const QString &filename) throw(QString);
+
 public Q_SLOTS:
     /**
      * \brief Add a new item to the model.

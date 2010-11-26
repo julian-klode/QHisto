@@ -26,6 +26,7 @@
 #include "JHistModel.hpp"
 
 #include <QtGlobal>
+#include <QFile>
 
 double JHistModel::maximumValue()
 {
@@ -42,3 +43,31 @@ double JHistModel::minimumValue()
         scale = qMin(scale, getValue(i));
     return scale;
 }
+
+void JHistModel::readFromFile(const QString &filename) throw (QString)
+{
+    QFile device(filename);
+    QByteArray line;
+    if (!device.open(QIODevice::ReadOnly))
+        throw device.errorString();
+    while ((line = device.readLine()).size()) {
+        QList<QByteArray> list = line.left(line.size() - 1).split('\t');
+        add(list[0].replace("\\t", "\t"), list[1].toDouble(),
+            QColor(QString(list[2])));
+    }
+}
+
+void JHistModel::writeToFile(const QString &filename) throw (QString)
+{
+    QFile device(filename);
+    if (!device.open(QIODevice::WriteOnly))
+        throw device.errorString();
+    for (int i=0; i < size(); i++) {
+        device.write(getLabel(i).replace("\t", "\\t").toAscii());
+        device.write("\t");
+        device.write(QString::number(getValue(i)).toAscii());
+        device.write("\t");
+        device.write(getColor(i).name().toAscii());
+        device.write("\n");
+    }
+};
