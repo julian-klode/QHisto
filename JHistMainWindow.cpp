@@ -10,12 +10,14 @@
 #include <QItemSelectionModel>
 #include <QFileDialog>
 #include <QApplication>
+#include <QHeaderView>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("&Add"), button_remove("&Remove")
 {
     setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
     histview.setModel(&model);
+    tableview.horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     tableview.setModel(&static_cast<QAbstractItemModel&>(model));
     // Repaint the histogram if the data changes.
     histview.connect(&static_cast<QAbstractItemModel&>(model),
