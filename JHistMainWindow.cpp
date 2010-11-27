@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include <QApplication>
 #include <QHeaderView>
+#include <QPrinter>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("&Add"), button_remove("&Remove")
@@ -152,6 +153,13 @@ void JHistMainWindow::saveAs()
 void JHistMainWindow::print()
 {
     QPrintPreviewDialog dialog;
+    QPrinter *printer = dialog.printer();
+    printer->setCreator("QHisto 1 (C) 2010 Julian Andres Klode");
+    if (!fileName.isEmpty())
+        printer->setDocName(QFileInfo(fileName).baseName());
+    else
+        printer->setDocName("QHisto");
+
     connect(&dialog, SIGNAL(paintRequested(QPrinter*)), &histview,
             SLOT(paintOnTo(QPrinter*)));
     dialog.exec();
