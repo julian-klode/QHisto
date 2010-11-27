@@ -90,6 +90,11 @@ JItemHistModel::operator QAbstractItemModel& ()
     return items;
 }
 
+JItemHistModel::operator const QAbstractItemModel& () const
+{
+    return items;
+}
+
 void JItemHistModel::emitChanged() {
     emit changed();
 }

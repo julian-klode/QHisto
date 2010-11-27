@@ -62,6 +62,8 @@ public:
      * is required, objects of this class automatically become one.
      */
     operator QAbstractItemModel& ();
+    /** \brief Overloaded version for const objects */
+    operator const QAbstractItemModel& () const;
 
 public Q_SLOTS:
     /**

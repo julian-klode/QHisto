@@ -80,7 +80,7 @@ public Q_SLOTS:
 
 private:
     /** \brief The model of which data is displayed. */
-    JHistModel *model;
+    const JHistModel *model;
     /** \brief The painter does the painting on the device. */
     QPainter painter;
 
