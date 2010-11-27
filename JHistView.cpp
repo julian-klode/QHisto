@@ -30,7 +30,7 @@
 #include <QPrinter>
 
 JHistView::JHistView(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), model(NULL)
 {
 };
 
@@ -42,9 +42,14 @@ int JHistView::getY(double value)
 }
 
 
-void JHistView::setModel(JHistModel * model)
+void JHistView::setModel(JHistModel *model)
 {
+    if (this->model != NULL)
+        disconnect(this->model, SIGNAL(changed()), this, SLOT(repaint()));
+
     this->model = model;
+
+    connect(model, SIGNAL(changed()), this, SLOT(repaint()));
 }
 
 double JHistView::paintAxisY(QPainter &painter)
