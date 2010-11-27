@@ -47,13 +47,13 @@ public:
     /** \brief Construct a new JItemHistModel. */
     JItemHistModel();
     /** \brief Return the label stored at row 'index', first column. */
-    QString getLabel(int index);
+    QString getLabel(int index) const;
     /** \brief Return the value stored at row 'index', second column. */
-    double getValue(int index);
+    double getValue(int index) const;
     /** \brief Return the color stored at row 'index', third column. */
-    QColor getColor(int index);
+    QColor getColor(int index) const;
     /** \brief Returns the number of rows in the model */
-    int size();
+    int size() const;
 
     /**
      * \brief Operator to let the object be a QAbstractItemModel as well.

@@ -53,7 +53,7 @@ public:
      * \param index An index in the model
      * \see getLabel(), getColor(), size()
      */
-    virtual QString getLabel(int index) = 0;
+    virtual QString getLabel(int index) const = 0;
 
     /**
      * \brief The value the drawn bar shall represent.
@@ -64,7 +64,7 @@ public:
      * \param index An index in the model
      * \see getLabel(), getColor(), size()
      */
-    virtual double getValue(int index) = 0;
+    virtual double getValue(int index) const = 0;
 
     /**
      * \brief The color the drawn bar shall receive (if possible).
@@ -75,7 +75,7 @@ public:
      * \param index An index in the model
      * \see getLabel(), getValue(), size()
      */
-    virtual QColor getColor(int index) = 0;
+    virtual QColor getColor(int index) const = 0;
 
     /**
      * \brief The number of items stored in this model.
@@ -83,7 +83,7 @@ public:
      * Return the number of items stored in this model, where
      * 'item' refers to one bar in a histogram.
      */
-    virtual int size() = 0;
+    virtual int size() const = 0;
 
     /**
      * \brief The maximum value stored in this model.
@@ -94,7 +94,7 @@ public:
      * store the value in a member variable if the maximum value
      * changes and return the value of that member variable here.
      */
-    virtual double maximumValue();
+    virtual double maximumValue() const;
 
     /**
      * \brief The minimum value stored in this model.
@@ -105,7 +105,7 @@ public:
      * store the value in a member variable if the minimum value
      * changes and return the value of that member variable here.
      */
-    virtual double minimumValue();
+    virtual double minimumValue() const;
 
     /**
      * \brief Read the model data from a file.
@@ -150,7 +150,7 @@ public:
      * \param filename The name of the file to write to.
      * \throw A QString describing the error.
      */
-    void writeToFile(const QString &filename) throw(QString);
+    void writeToFile(const QString &filename) const throw(QString);
 
 Q_SIGNALS:
     /** \brief Emitted when the data in the model changes */

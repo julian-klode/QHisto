@@ -28,7 +28,7 @@
 #include <QtGlobal>
 #include <QFile>
 
-double JHistModel::maximumValue()
+double JHistModel::maximumValue() const
 {
     double scale = 0;
     for (int i=0; i<= size(); i++)
@@ -36,7 +36,7 @@ double JHistModel::maximumValue()
     return scale;
 }
 
-double JHistModel::minimumValue()
+double JHistModel::minimumValue() const
 {
     double scale = 0;
     for (int i=0; i<= size(); i++)
@@ -89,7 +89,7 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
     }
 }
 
-void JHistModel::writeToFile(const QString &filename) throw (QString)
+void JHistModel::writeToFile(const QString &filename) const throw (QString)
 {
     QFile device(filename);
     if (!device.open(QIODevice::WriteOnly))

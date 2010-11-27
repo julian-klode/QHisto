@@ -42,7 +42,7 @@ JItemHistModel::JItemHistModel()
             SLOT(emitChanged()));
 };
 
-int JItemHistModel::size()
+int JItemHistModel::size() const
 {
     return this->items.rowCount();
 }
@@ -70,17 +70,17 @@ void JItemHistModel::add()
     items.appendRow(list);
 }
 
-QString JItemHistModel::getLabel(int index)
+QString JItemHistModel::getLabel(int index) const
 {
     return items.data(items.index(index, 0), Qt::DisplayRole).toString();
 }
 
-double JItemHistModel::getValue(int index)
+double JItemHistModel::getValue(int index) const
 {
     return items.data(items.index(index, 1), Qt::DisplayRole).toDouble();
 }
 
-QColor JItemHistModel::getColor(int index)
+QColor JItemHistModel::getColor(int index) const
 {
     return items.data(items.index(index, 2),Qt::DisplayRole).value<QColor>();
 }
