@@ -35,6 +35,11 @@ JItemHistModel::JItemHistModel()
     items.setHeaderData(0, Qt::Horizontal, QVariant("Label"), Qt::DisplayRole);
     items.setHeaderData(1, Qt::Horizontal, QVariant("Wert"), Qt::DisplayRole);
     items.setHeaderData(2, Qt::Horizontal, QVariant("Farbe"), Qt::DisplayRole);
+
+    connect(&items, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+            SLOT(emitChanged()));
+    connect(&items, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+            SLOT(emitChanged()));
 };
 
 int JItemHistModel::size()
@@ -83,4 +88,8 @@ QColor JItemHistModel::getColor(int index)
 JItemHistModel::operator QAbstractItemModel& ()
 {
     return items;
+}
+
+void JItemHistModel::emitChanged() {
+    emit changed();
 }

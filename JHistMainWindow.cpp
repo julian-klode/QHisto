@@ -21,13 +21,7 @@ JHistMainWindow::JHistMainWindow()
     tableview.horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     tableview.setModel(&static_cast<QAbstractItemModel&>(model));
     // Repaint the histogram if the data changes.
-    histview.connect(&static_cast<QAbstractItemModel&>(model),
-                      SIGNAL(dataChanged(const QModelIndex&,
-                                         const QModelIndex&)),
-                      SLOT(repaint()));
-    histview.connect(&static_cast<QAbstractItemModel&>(model),
-                      SIGNAL(rowsRemoved (const QModelIndex&, int, int)),
-                      SLOT(repaint()));
+    histview.connect(&model, SIGNAL(changed()), SLOT(repaint()));
     // Add a new row if the 'Add' button is clicked.
     model.connect(&button_add, SIGNAL(clicked()), SLOT(add()));
     connect(&button_remove, SIGNAL(clicked()), SLOT(remove()));

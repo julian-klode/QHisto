@@ -152,6 +152,10 @@ public:
      */
     void writeToFile(const QString &filename) throw(QString);
 
+Q_SIGNALS:
+    /** \brief Emitted when the data in the model changes */
+    virtual void changed();
+
 public Q_SLOTS:
     /**
      * \brief Add a new item to the model.

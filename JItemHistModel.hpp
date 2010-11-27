@@ -88,6 +88,9 @@ protected:
      */
     void add(QString label, double value, QColor color);
 
+private Q_SLOTS:
+    /** Changed */
+    void emitChanged();
 private:
     /**
      * \brief The model this model wraps.
