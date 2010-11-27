@@ -44,17 +44,47 @@ double JHistModel::minimumValue()
     return scale;
 }
 
+/* Now comes the simple read-write support */
+
+/**
+ * \brief Escape or unescape the given string.
+ *
+ * Escape or unescape a string according to the specification
+ * in QHisto(5).
+ *
+ * \param reading If true, escape sequences will be replaced by
+ *                characters. Otherwise, characters will be escaped.
+ */
+static QString escape(QString string, bool reading) {
+    static const struct {
+        char character[2];
+        char escaped[3];
+    } sequences[] = { { "\\", "\\\\" }, { "\n", "\\n"}, {"\r", "\\r" },
+                      { "\t", "\\t" }, { "#", "\\#"} };
+    for (unsigned i = 0; i < sizeof(sequences) / sizeof(sequences[0]); i++) {
+        if (reading)
+            string.replace(sequences[i].escaped, sequences[i].character);
+        else
+            string.replace(sequences[i].character, sequences[i].escaped);
+    }
+    return string;
+}
+
 void JHistModel::readFromFile(const QString &filename) throw (QString)
 {
     QFile device(filename);
     QByteArray line;
-    if (!device.open(QIODevice::ReadOnly))
+    if (!device.open(QIODevice::ReadOnly | QIODevice::Text))
         throw device.errorString();
 
     clear();
     while ((line = device.readLine()).size()) {
-        QList<QByteArray> list = line.left(line.size() - 1).split('\t');
-        add(QString::fromUtf8(list[0].replace("\\t", "\t")),
+        if (line.at(0) == '#')
+            continue;
+        if (line.at(line.size() -1) == '\n')
+            line.truncate(line.size() - 1);
+        QList<QByteArray> list = line.split('\t');
+        add(escape(QString::fromUtf8(list[0]), true),
             list[1].toDouble(), QColor(QString(list[2])));
     }
 }
@@ -65,7 +95,7 @@ void JHistModel::writeToFile(const QString &filename) throw (QString)
     if (!device.open(QIODevice::WriteOnly))
         throw device.errorString();
     for (int i=0; i < size(); i++) {
-        device.write(getLabel(i).replace("\t", "\\t").toUtf8());
+        device.write(escape(getLabel(i), false).toUtf8());
         device.write("\t");
         device.write(QString::number(getValue(i)).toUtf8());
         device.write("\t");
