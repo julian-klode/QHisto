@@ -81,8 +81,6 @@ public Q_SLOTS:
 private:
     /** \brief The model of which data is displayed. */
     JHistModel *model;
-    /** \brief The device to paint to (this or argument of paintOnTo()) */
-    QPaintDevice *device;
     /** \brief The painter does the painting on the device. */
     QPainter painter;
 
@@ -108,9 +106,9 @@ private:
     double paintAxisY(QPainter &painter);
 
     /** \brief Wrapper function for height. */
-    int height() { return device->height(); }
+    int height() { return painter.device()->height(); }
     /** \brief Wrapper function for width. */
-    int width() { return device->width(); }
+    int width() { return painter.device()->width(); }
     /** \brief Wrapper function for fontMetrics */
     QFontMetrics fontMetrics() { return painter.fontMetrics(); }
 };

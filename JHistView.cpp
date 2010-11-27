@@ -79,8 +79,7 @@ void JHistView::paintOnTo(QPaintDevice *device)
     if (model->size() == 0)
         return;
 
-    this->device = device;
-    painter.begin(this->device);
+    painter.begin(device);
 
     const double offset = paintAxisY(painter);
     // Relative distance between two rectangles
