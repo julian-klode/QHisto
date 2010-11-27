@@ -66,7 +66,12 @@ JHistMainWindow::JHistMainWindow()
 void JHistMainWindow::about()
 {
     QMessageBox::about(this, tr("QHisto"),
-                       tr("<b>QHisto</b> draws histograms."));
+                       tr("<p><b>QHisto</b> draws histograms. It sports "
+                          "a simple flat file storage format, printing, "
+                          "and PDF/PS-export.</p>"
+                          "<p><b>QHisto</b> is licensed under the terms of "
+                          "the MIT/X11 license, see the code for details.</p>"
+                          "<p>Copyright &copy; 2010 Julian Andres Klode</p>"));
 }
 
 void JHistMainWindow::remove()
