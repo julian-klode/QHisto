@@ -85,14 +85,9 @@ QColor JItemHistModel::getColor(int index) const
     return items.data(items.index(index, 2),Qt::DisplayRole).value<QColor>();
 }
 
-JItemHistModel::operator QAbstractItemModel& ()
+QAbstractItemModel *JItemHistModel::itemModel()
 {
-    return items;
-}
-
-JItemHistModel::operator const QAbstractItemModel& () const
-{
-    return items;
+    return &items;
 }
 
 void JItemHistModel::emitChanged() {

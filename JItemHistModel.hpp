@@ -55,15 +55,8 @@ public:
     /** \brief Returns the number of rows in the model */
     int size() const;
 
-    /**
-     * \brief Operator to let the object be a QAbstractItemModel as well.
-     *
-     * When used in constructs where a reference to a QAbstractItemModel
-     * is required, objects of this class automatically become one.
-     */
-    operator QAbstractItemModel& ();
-    /** \brief Overloaded version for const objects */
-    operator const QAbstractItemModel& () const;
+    /** \brief Return a 3-column item model: label, value, color. */
+    QAbstractItemModel *itemModel();
 
 public Q_SLOTS:
     /**
