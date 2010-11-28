@@ -49,7 +49,7 @@ public:
     void writeToFile(const QString &filename) const throw(QString);
 
 public slots:
-    void add() { insertRow(1); }
+    void add() { insertRow(rowCount()); }
     void clear() { removeRows(0, rowCount()); }
 
 signals:

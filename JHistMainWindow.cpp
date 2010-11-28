@@ -79,7 +79,7 @@ void JHistMainWindow::remove()
 {
     QItemSelectionModel *selection = tableview.selectionModel();
     QModelIndexList index = selection->selectedRows();
-    for (int i=0; i < index.size(); i++)
+    for (int i=index.size() - 1 ; i >= 0 ; i--)
         model.removeRow(index[i].row());
 }
 

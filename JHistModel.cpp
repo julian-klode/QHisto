@@ -73,9 +73,9 @@ bool JHistModel::setData(const QModelIndex &index, const QVariant &value, int ro
     default:
         return false;
     }
-
     emit dataChanged(index, index);
     emit changed();
+    return true;
 }
 
 Qt::ItemFlags JHistModel::flags(const QModelIndex & /* index */) const
@@ -88,7 +88,7 @@ bool JHistModel::insertRows(int row, int count, const QModelIndex &parent)
     if (parent.isValid())
         return false;
 
-    beginInsertRows(parent, row, count);
+    beginInsertRows(parent, row, row + count - 1);
     while (count-- > 0)
         items.insert(row, new JHistItem("", 0, "green"));
     endInsertRows();
@@ -101,11 +101,9 @@ bool JHistModel::removeRows(int row, int count, const QModelIndex &parent)
     if (parent.isValid())
         return false;
 
-    beginRemoveRows(parent, row, count);
-    while (count--) {
-        delete items[row];
-        items.removeAt(row);
-    }
+    beginRemoveRows(parent, row, row + count - 1);
+    while (count--)
+        delete items.takeAt(row);
     endRemoveRows();
     emit changed();
     return true;
@@ -187,6 +185,7 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
         items.append(item);
     }
     endResetModel();
+    emit changed();
 }
 
 void JHistModel::writeToFile(const QString &filename) const throw (QString)
