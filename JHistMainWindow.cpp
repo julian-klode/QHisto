@@ -12,6 +12,7 @@
 #include <QApplication>
 #include <QHeaderView>
 #include <QPrinter>
+#include <QSplitter>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("&Add"), button_remove("&Remove")
@@ -25,8 +26,10 @@ JHistMainWindow::JHistMainWindow()
     connect(&button_remove, SIGNAL(clicked()), SLOT(remove()));
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(&histview, 50);
-    layout->addWidget(&tableview, 50);
+    QSplitter *splitter = new QSplitter(Qt::Vertical);
+    splitter->addWidget(&histview);
+    splitter->addWidget(&tableview);
+    layout->addWidget(splitter);
 
     QHBoxLayout *buttons = new QHBoxLayout;
     layout->addLayout(buttons);
