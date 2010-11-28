@@ -1,4 +1,4 @@
-/* JHistModel.cpp - Implementation of parts of the JHistModel class.
+/* JHistModel.cpp - Implementation of JHistModel.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -24,25 +24,121 @@
  */
 
 #include "JHistModel.hpp"
-
-#include <QtGlobal>
+#include <QModelIndex>
+#include <QVariant>
+#include <QColor>
 #include <QFile>
+
+struct JHistItem {
+    QString label;
+    double  value;
+    QColor  color;
+    JHistItem(const QString& label, double value, const QColor& color)
+        : label(label), value(value), color(color)
+    {
+    }
+};
+
+int JHistModel::columnCount(const QModelIndex &parent) const
+{
+    return parent.isValid() ? 0 : 3;
+}
+
+int JHistModel::rowCount(const QModelIndex &parent) const
+{
+    return parent.isValid() ? 0 : items.size();
+}
+
+QVariant JHistModel::data (const QModelIndex &index, int role) const
+{
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        switch (index.column()) {
+        case 0: return items[index.row()]->label;
+        case 1: return items[index.row()]->value;
+        case 2: return items[index.row()]->color;
+        }
+    }
+    return QVariant();
+}
+
+bool JHistModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role != Qt::EditRole && role != Qt::DisplayRole)
+        return false;
+
+    switch (index.column()) {
+    case 0: items[index.row()]->label = value.toString(); break;
+    case 1: items[index.row()]->value = value.toDouble(); break;
+    case 2: items[index.row()]->color = value.value<QColor>(); break;
+    default:
+        return false;
+    }
+
+    emit dataChanged(index, index);
+    emit changed();
+}
+
+Qt::ItemFlags JHistModel::flags(const QModelIndex & /* index */) const
+{
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+bool JHistModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if (parent.isValid())
+        return false;
+
+    beginInsertRows(parent, row, count);
+    while (count-- > 0)
+        items.insert(row, new JHistItem("", 0, "green"));
+    endInsertRows();
+    emit changed();
+    return true;
+}
+
+bool JHistModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    if (parent.isValid())
+        return false;
+
+    beginRemoveRows(parent, row, count);
+    while (count--) {
+        delete items[row];
+        items.removeAt(row);
+    }
+    endRemoveRows();
+    emit changed();
+    return true;
+}
+
+QVariant JHistModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        switch (section) {
+        case 0: return "Label";
+        case 1: return "Value";
+        case 2: return "Color";
+        }
+    }
+    return QAbstractTableModel::headerData(section, orientation, role);
+}
 
 double JHistModel::maximumValue() const
 {
-    double scale = 0;
-    for (int i=0; i<= size(); i++)
-        scale = qMax(scale, getValue(i));
-    return scale;
+    double max = 0;
+    for (int i = 0; i < items.size(); i++)
+        max = qMax(max, items[i]->value);
+    return max;
 }
 
 double JHistModel::minimumValue() const
 {
-    double scale = 0;
-    for (int i=0; i<= size(); i++)
-        scale = qMin(scale, getValue(i));
-    return scale;
+    double min = 0;
+    for (int i = 0; i < items.size(); i++)
+        min = qMin(min, items[i]->value);
+    return min;
 }
+
 
 /* Now comes the simple read-write support */
 
@@ -78,15 +174,23 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
         throw device.errorString();
 
     clear();
+
+    QList<JHistItem*> newItems = items;
     while ((line = device.readLine()).size()) {
         if (line.at(0) == '#')
             continue;
         if (line.at(line.size() -1) == '\n')
             line.truncate(line.size() - 1);
         QList<QByteArray> list = line.split('\t');
-        add(escape(QString::fromUtf8(list[0]), true),
-            list[1].toDouble(), QColor(QString(list[2])));
+        JHistItem *item;
+        item = new JHistItem(escape(QString::fromUtf8(list[0]), true),
+                             list[1].toDouble(), QString(list[2]));
+        newItems.append(item);
     }
+    beginInsertRows(QModelIndex(), 0, newItems.size());
+    items = newItems;
+    endInsertRows();
+    emit changed();
 }
 
 void JHistModel::writeToFile(const QString &filename) const throw (QString)
@@ -94,12 +198,12 @@ void JHistModel::writeToFile(const QString &filename) const throw (QString)
     QFile device(filename);
     if (!device.open(QIODevice::WriteOnly))
         throw device.errorString();
-    for (int i=0; i < size(); i++) {
-        device.write(escape(getLabel(i), false).toUtf8());
+    for (int i=0; i < items.size(); i++) {
+        device.write(escape(items[i]->label, false).toUtf8());
         device.write("\t");
-        device.write(QString::number(getValue(i)).toUtf8());
+        device.write(QString::number(items[i]->value).toUtf8());
         device.write("\t");
-        device.write(getColor(i).name().toUtf8());
+        device.write(items[i]->color.name().toUtf8());
         device.write("\n");
     }
 }

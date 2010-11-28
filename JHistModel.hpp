@@ -1,4 +1,4 @@
-/* JHistModel.hpp - Interface of the JHistModel class.
+/* JHistModel.hpp - Implementation of JHistModel.
  *
  * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
  *
@@ -22,142 +22,46 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-#ifndef J_HISTO_MODEL_H
-#define J_HISTO_MODEL_H
-
-#include <QObject>
-#include <QString>
+#include <QAbstractTableModel>
+#include <QList>
 #include <QColor>
 
-/**
- * \brief Abstract base class for models representing histograms.
- *
- * This class provides an interface describing a typical histogram. Most
- * of its functions are virtual, but some are not. JHistView objects can
- * represent the data from this model visually as histograms.
- *
- * \see JHistView
- */
-class JHistModel : public QObject {
+struct JHistItem;
+
+class JHistModel : public QAbstractTableModel {
     Q_OBJECT
 public:
-    /**
-     * \brief A label describing the value at 'index'
-     *
-     * Return a label describing the value. For example,
-     * if you are creating a histogram showing the speed
-     * various internet providers can provide, the return
-     * value should be the name of the internet provider.
-     *
-     * \param index An index in the model
-     * \see getLabel(), getColor(), size()
-     */
-    virtual QString getLabel(int index) const = 0;
+    int columnCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent=QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
 
-    /**
-     * \brief The value the drawn bar shall represent.
-     *
-     * Return the value that shall be represented by
-     * a bar.
-     *
-     * \param index An index in the model
-     * \see getLabel(), getColor(), size()
-     */
-    virtual double getValue(int index) const = 0;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    /**
-     * \brief The color the drawn bar shall receive (if possible).
-     *
-     * Return the bar for the graph representing the values at the
-     * position 'index' in the model.
-     *
-     * \param index An index in the model
-     * \see getLabel(), getValue(), size()
-     */
-    virtual QColor getColor(int index) const = 0;
+    bool insertRows(int row, int count, const QModelIndex &parent=QModelIndex());
+    bool removeRows(int row, int count, const QModelIndex &parent=QModelIndex());
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-    /**
-     * \brief The number of items stored in this model.
-     *
-     * Return the number of items stored in this model, where
-     * 'item' refers to one bar in a histogram.
-     */
-    virtual int size() const = 0;
+    double minimumValue() const;
+    double maximumValue() const;
 
-    /**
-     * \brief The maximum value stored in this model.
-     *
-     * Subclasses should reimplement this function if possible, this
-     * basic implementation queries the whole list for the maximum
-     * value and thus has O(n) complexity. Implementations should
-     * store the value in a member variable if the maximum value
-     * changes and return the value of that member variable here.
-     */
-    virtual double maximumValue() const;
 
-    /**
-     * \brief The minimum value stored in this model.
-     *
-     * Subclasses should reimplement this function if possible, this
-     * basic implementation queries the whole list for the minimum
-     * value and thus has O(n) complexity. Implementations should
-     * store the value in a member variable if the minimum value
-     * changes and return the value of that member variable here.
-     */
-    virtual double minimumValue() const;
+    QString getLabel(int i) const { return index(i, 0).data().toString(); }
+    double getValue(int i) const { return index(i, 1).data().toDouble(); }
+    QColor getColor(int i) const { return index(i, 2).data().value<QColor>(); }
 
-    /**
-     * \brief Read the model data from a file.
-     *
-     * Read the given file in the QHisto(5) format, replacing all
-     * previous contents of the model (if any). If an error occurs,
-     * a QString is thrown.
-     *
-     * \param filename The name of the file to be read from.
-     * \throw A QString describing the error.
-     */
+    int size() const { return rowCount(); }
+
     void readFromFile(const QString &filename) throw(QString);
-
-    /**
-     * \brief Write the model data to a file.
-     *
-     * Write the model to the given file in the QHisto(5) format,
-     * replacing a previous file with the same name (if any). If
-     * an error occurs, a QString is thrown.
-     *
-     * \param filename The name of the file to write to.
-     * \throw A QString describing the error.
-     */
     void writeToFile(const QString &filename) const throw(QString);
 
-Q_SIGNALS:
-    /** \brief Emitted when the data in the model changes */
-    virtual void changed();
+public slots:
+    void add() { insertRow(1); }
+    void clear() { removeRows(0, rowCount()); }
 
-public Q_SLOTS:
-    /**
-     * \brief Add a new item to the model.
-     *
-     * May be connected to a button in the user interface to
-     * insert a new model; or something similar.
-     */
-    virtual void add() = 0;
+signals:
+    void changed();
 
-    /** \brief Remove all items from the model. */
-    virtual void clear() = 0;
-protected:
-    /**
-     * \brief Insert a new row into the model.
-     *
-     * Insert a new row into the model, using the data given
-     * via the arguments.
-     *
-     * \param label The label of the new row.
-     * \param value The value. May change the result of maximumValue().
-     * \param color The color the bar should have.
-     */
-    virtual void add(QString label, double value, QColor color) = 0;
+private:
+    QList<JHistItem*> items;
 };
-
-#endif /* J_HISTO_MODEL_H */

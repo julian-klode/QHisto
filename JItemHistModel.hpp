@@ -42,59 +42,8 @@ class QAbstractItemModel;
  */
 class JItemHistModel : public JHistModel {
     Q_OBJECT
-
 public:
-    /** \brief Construct a new JItemHistModel. */
-    JItemHistModel();
-    /** \brief Return the label stored at row 'index', first column. */
-    QString getLabel(int index) const;
-    /** \brief Return the value stored at row 'index', second column. */
-    double getValue(int index) const;
-    /** \brief Return the color stored at row 'index', third column. */
-    QColor getColor(int index) const;
-    /** \brief Returns the number of rows in the model */
-    int size() const;
-
-    /** \brief Return a 3-column item model: label, value, color. */
-    QAbstractItemModel *itemModel();
-
-public Q_SLOTS:
-    /**
-     * \brief Slot that inserts an empty row.
-     *
-     * Add a new empty row. This function only works if the model is
-     * used to expose the data of a QStandardItemModel.
-     */
-    void add();
-
-    /**
-     * \brief Remove all rows.
-     *
-     * This basically calls clear() on the storage.
-     */
-    void clear();
-
-protected:
-    /**
-     * \brief Create a new row.
-     *
-     * Add a new pre-populated row. This is helpful in
-     * case data from somewhere else shall be read.
-     */
-    void add(QString label, double value, QColor color);
-
-private Q_SLOTS:
-    /** Changed */
-    void emitChanged();
-private:
-    /**
-     * \brief The model this model wraps.
-     *
-     * This is a 3-column model containing the data. The first
-     * column represents the label, the second one represents
-     * the value, and the third one represents the color.
-     */
-    QStandardItemModel items;
+    QAbstractItemModel *itemModel() { return this; }
 };
 
 #endif /* J_ITEM_HISTO_MODEL_H */
