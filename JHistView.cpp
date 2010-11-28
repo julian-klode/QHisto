@@ -45,11 +45,19 @@ int JHistView::getY(double value)
 void JHistView::setModel(JHistModel *model)
 {
     if (this->model != NULL)
-        disconnect(this->model, SIGNAL(changed()), this, SLOT(repaint()));
+        this->model->disconnect(this);
 
     this->model = model;
 
-    connect(model, SIGNAL(changed()), this, SLOT(repaint()));
+    connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+            this, SLOT(repaint()));
+    connect(model, SIGNAL(rowsInserted(QModelIndex,int,int)),
+            this, SLOT(repaint()));
+    connect(model, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+            this, SLOT(repaint()));
+    connect(model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+            this, SLOT(repaint()));
+    connect(model, SIGNAL(modelReset()), this, SLOT(repaint()));
 }
 
 double JHistView::paintAxisY(QPainter &painter)

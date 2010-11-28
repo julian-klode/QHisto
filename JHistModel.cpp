@@ -173,9 +173,8 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
     if (!device.open(QIODevice::ReadOnly | QIODevice::Text))
         throw device.errorString();
 
-    clear();
-
-    QList<JHistItem*> newItems = items;
+    beginResetModel();
+    items.clear();
     while ((line = device.readLine()).size()) {
         if (line.at(0) == '#')
             continue;
@@ -185,12 +184,9 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
         JHistItem *item;
         item = new JHistItem(escape(QString::fromUtf8(list[0]), true),
                              list[1].toDouble(), QString(list[2]));
-        newItems.append(item);
+        items.append(item);
     }
-    beginInsertRows(QModelIndex(), 0, newItems.size());
-    items = newItems;
-    endInsertRows();
-    emit changed();
+    endResetModel();
 }
 
 void JHistModel::writeToFile(const QString &filename) const throw (QString)
