@@ -35,26 +35,26 @@ JHistMainWindow::JHistMainWindow()
     /* FIXME: Must be deleted */
     QMenuBar *menuBar = new QMenuBar;
     QMenu *file = menuBar->addMenu(tr("&File"));
-    file->addAction(QIcon::fromTheme("document-new"), "&New", this, SLOT(clear()),
-                    QKeySequence(tr("Ctrl+N", "File|New")));
+    file->addAction(QIcon::fromTheme("document-new"), tr("&New"), this,
+                    SLOT(clear()), QKeySequence::New);
     file->addSeparator();
-    file->addAction(QIcon::fromTheme("document-open"), "&Open", this, SLOT(open()),
-                    QKeySequence(tr("Ctrl+O", "File|Open")));
+    file->addAction(QIcon::fromTheme("document-open"), tr("&Open"), this,
+                    SLOT(open()), QKeySequence::Open);
     file->addSeparator();
-    file->addAction(QIcon::fromTheme("document-save"), "&Save", this, SLOT(save()),
-                    QKeySequence(tr("Ctrl+S", "File|Save")));
-    file->addAction(QIcon::fromTheme("document-save-as"), "Save &As", this, SLOT(saveAs()),
-                    QKeySequence(tr("Ctrl+Shift+S", "File|Save As")));
+    file->addAction(QIcon::fromTheme("document-save"), tr("&Save"), this,
+                    SLOT(save()), QKeySequence::Save);
+    file->addAction(QIcon::fromTheme("document-save-as"), tr("Save &As"),
+                    this, SLOT(saveAs()), QKeySequence::SaveAs);
     file->addSeparator();
-    file->addAction(QIcon::fromTheme("document-print"), "&Print", this, SLOT(print()),
-                    QKeySequence(tr("Ctrl+P", "File|Print")));
+    file->addAction(QIcon::fromTheme("document-print"), tr("&Print"), this,
+                    SLOT(print()), QKeySequence::Print);
     file->addSeparator();
-    file->addAction(QIcon::fromTheme("application-exit"), "&Quit", this, SLOT(close()),
-                    QKeySequence(tr("Ctrl+Q", "File|Quit")));
+    file->addAction(QIcon::fromTheme("application-exit"), tr("&Quit"), this,
+                    SLOT(close()), QKeySequence::Quit);
     QMenu *help = menuBar->addMenu(tr("&Help"));
-    help->addAction(QIcon::fromTheme("help-about-qt"), "About &Qt", qApp,
+    help->addAction(QIcon::fromTheme("help-about-qt"), tr("About &Qt"), qApp,
                     SLOT(aboutQt()));
-    help->addAction(QIcon::fromTheme("help-about"), "&About", this,
+    help->addAction(QIcon::fromTheme("help-about"), tr("&About"), this,
                     SLOT(about()));
     layout->setMenuBar(menuBar);
     setLayout(layout);
