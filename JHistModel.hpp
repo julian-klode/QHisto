@@ -45,13 +45,6 @@ public:
     double minimumValue() const;
     double maximumValue() const;
 
-
-    QString getLabel(int i) const { return index(i, 0).data().toString(); }
-    double getValue(int i) const { return index(i, 1).data().toDouble(); }
-    QColor getColor(int i) const { return index(i, 2).data().value<QColor>(); }
-
-    int size() const { return rowCount(); }
-
     void readFromFile(const QString &filename) throw(QString);
     void writeToFile(const QString &filename) const throw(QString);
 

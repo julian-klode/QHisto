@@ -81,7 +81,7 @@ void JHistView::paintOnTo(QPrinter *device)
 
 void JHistView::paintOnTo(QPaintDevice *device)
 {
-    if (model->size() == 0)
+    if (model->rowCount() == 0)
         return;
 
     painter.begin(device);
@@ -91,14 +91,17 @@ void JHistView::paintOnTo(QPaintDevice *device)
     const double rectDist = 0.05;
     // width of one rectangle
     const double rectWidth = ((width() - offset) /
-                              ((1 + rectDist) * model->size()));
+                              ((1 + rectDist) * model->rowCount()));
 
-    for (int i = 0; i < model->size(); i++) {
+    for (int i = 0; i < model->rowCount(); i++) {
+        QString label = model->index(i, 0).data().toString();
+        double value = model->index(i, 1).data().toDouble();
+        QColor color = model->index(i, 2).data().value<QColor>();
         // Create a new rectangle using QRect(x, y, width, height)
         QRect rect(offset + (i+1) * rectDist * rectWidth  + i * rectWidth,
-                   getY(model->getValue(i)),
+                   getY(value),
                    rectWidth,
-                   getY(0) - getY(model->getValue(i)));
+                   getY(0) - getY(value));
 
         // The height is negative, normalize the rectangle
         if (rect.height() < 0) {
@@ -108,15 +111,15 @@ void JHistView::paintOnTo(QPaintDevice *device)
         }
 
         // Draw the rectangle, write value into it
-        painter.setBrush(model->getColor(i));
+        painter.setBrush(color);
         painter.drawRect(rect);
         painter.drawText(rect, Qt::AlignCenter,
-                         QString::number(model->getValue(i)));
+                         QString::number(value));
 
         // Draw the label above the rectangle
         rect.setHeight(fontMetrics().height());
         rect.moveTop(rect.top() - 1.1 * rect.height());
-        painter.drawText(rect, Qt::AlignCenter, model->getLabel(i));
+        painter.drawText(rect, Qt::AlignCenter, label);
 
         // Draw an x-axis filling the distance to the left.
         painter.drawLine(rect.left() - rectWidth * rectDist, getY(0),
