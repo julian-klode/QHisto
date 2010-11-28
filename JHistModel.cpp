@@ -54,7 +54,8 @@ QVariant JHistModel::data (const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         switch (index.column()) {
         case 0: return items[index.row()]->label;
-        case 1: return items[index.row()]->value;
+        /* Use a string, allows us to enter exponential stuff, e.g. 1e10. */
+        case 1: return QString::number(items[index.row()]->value);
         case 2: return items[index.row()]->color;
         }
     }
