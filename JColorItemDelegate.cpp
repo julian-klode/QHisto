@@ -43,7 +43,7 @@ bool JColorItemDelegate::editorEvent(QEvent *event,
                                      const QStyleOptionViewItem &option,
                                      const QModelIndex &index)
 {
-    if (event->type() != QEvent::MouseButtonPress)
+    if (event->type() != QEvent::MouseButtonDblClick)
         return false;
 
     QColor color = QColorDialog::getColor(index.data().value<QColor>());
