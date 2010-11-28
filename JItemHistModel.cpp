@@ -40,6 +40,8 @@ JItemHistModel::JItemHistModel()
             SLOT(emitChanged()));
     connect(&items, SIGNAL(rowsRemoved(QModelIndex,int,int)),
             SLOT(emitChanged()));
+    connect(&items, SIGNAL(rowsInserted(QModelIndex,int,int)),
+            SLOT(emitChanged()));
 };
 
 int JItemHistModel::size() const

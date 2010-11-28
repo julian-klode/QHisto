@@ -103,7 +103,6 @@ void JHistMainWindow::open(QString defName)
         if (reply == QMessageBox::Retry)
             return open(fileName);
     }
-    histview.repaint();
 }
 
 void JHistMainWindow::save()
@@ -126,7 +125,6 @@ void JHistMainWindow::clear()
 {
     model.clear();
     fileName = "";
-    histview.repaint();
 }
 
 void JHistMainWindow::saveAs()
