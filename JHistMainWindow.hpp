@@ -1,4 +1,4 @@
-#include "JItemHistModel.hpp"
+#include "JHistModel.hpp"
 #include "JHistView.hpp"
 #include "JColorItemDelegate.hpp"
 
@@ -36,7 +36,7 @@ public Q_SLOTS:
      */
     void open(QString defName = "");
 private:
-    JItemHistModel model;
+    JHistModel model;
     JHistView histview;
     QTableView tableview;
     QPushButton button_add;

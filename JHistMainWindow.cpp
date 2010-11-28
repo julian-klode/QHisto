@@ -20,7 +20,7 @@ JHistMainWindow::JHistMainWindow()
     setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
     histview.setModel(&model);
     tableview.horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    tableview.setModel(model.itemModel());
+    tableview.setModel(&model);
     // Add a new row if the 'Add' button is clicked.
     model.connect(&button_add, SIGNAL(clicked()), SLOT(add()));
     connect(&button_remove, SIGNAL(clicked()), SLOT(remove()));
@@ -80,7 +80,7 @@ void JHistMainWindow::remove()
     QItemSelectionModel *selection = tableview.selectionModel();
     QModelIndexList index = selection->selectedRows();
     for (int i=0; i < index.size(); i++)
-        model.itemModel()->removeRow(index[i].row());
+        model.removeRow(index[i].row());
 }
 
 void JHistMainWindow::open(QString defName)
