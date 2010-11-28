@@ -65,26 +65,22 @@ void JItemHistModel::add(QString label, double value, QColor color)
 
 void JItemHistModel::add()
 {
-    QList <QStandardItem *> list;
-    list << new QStandardItem("");
-    list << new QStandardItem("");
-    list << new QStandardItem("green");
-    items.appendRow(list);
+    return add("", 0, "green");
 }
 
 QString JItemHistModel::getLabel(int index) const
 {
-    return items.data(items.index(index, 0), Qt::DisplayRole).toString();
+    return items.index(index, 0).data().toString();
 }
 
 double JItemHistModel::getValue(int index) const
 {
-    return items.data(items.index(index, 1), Qt::DisplayRole).toDouble();
+    return items.index(index, 1).data().toDouble();
 }
 
 QColor JItemHistModel::getColor(int index) const
 {
-    return items.data(items.index(index, 2),Qt::DisplayRole).value<QColor>();
+    return items.index(index, 2).data().value<QColor>();
 }
 
 QAbstractItemModel *JItemHistModel::itemModel()
