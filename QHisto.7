@@ -1,0 +1,84 @@
+.TH QHISTO 7 "2010-11-28" "v1" "Histogram display"
+
+.SH NAME
+QHisto \- Overview over the QHisto code and concepts.
+
+.SH INTRODUCTION
+QHisto is developed as a Qt application using the model/view method. The models
+are responsible for defining what should be displayed and the views are the
+ones responsible for presenting the models. Furthermore, views use so-called
+"delegates" to do the actual drawing.
+
+.SH THE MODELS
+In QHisto's case, the world is a \fIJHistModel\fP. The JHistModel class is an
+abstract base class that defines the interface which views can use to
+access the data. The JHistModel interface is used by JHistView, more
+about that later.
+
+Derived from JHistModel is a \fIJHistItemModel\fP. This model implements the
+interface of JHistModel using a \fIQStandardItemModel\fP for storage. It also
+provides access to the QStandardItemModel via the itemsModel() method,
+so it can be used in a table view.
+
+.SH THE VIEWS
+QHisto provides two views to the model. The first one is the self-developed
+\fIJHistView\fP; it displays a simple histogram from the data. It also supports
+rendering itself somewhere else via the \fIpaintOnTo()\fP method which is used
+to provide printing support, for example.
+
+QHisto also provides a \fIQTableView\fP that allows for modification of the data
+in the model. This table has three columns. The first two represent the label
+and the value, the third one represents the color. Normally, the color would
+be handled as a string in the UI, just like the label and the value are. In
+QHisto however, the color is represented using a cell filled with the
+color. This is achieved by the use of so-called delegates.
+
+.SH THE DELEGATES
+Delegates are something the views use to draw a specific type of item. In
+QHisto's case, there is the \fIJColorItemDelegate\fP. This class causes the
+color column in the table to be drawn as a color, not as a simple text field.
+
+By overriding the method \fIpaint()\fP, we implement the color drawing
+part. But as you may have noticed, double-clicking on the field causes
+a color dialog to pop up. This is achieved by overriding \fIeditorEvent()\fP
+with a method that opens a color dialog whenever someone double clicks
+in a field.
+
+.SH PUTTING IT ALL TOGETHER: THE MAIN WINDOW
+The main window is the place where models and views come together. It creates
+a model, two views, connects the model with the views and adds the view to
+the window. It also creates all the other stuff seen in the window, such as
+the menu, the buttons, or the about box.
+
+.SH SPECIAL FEATURES
+
+.SS Persistent storage
+JHistModel provides two methods to read and write the model to a file on
+the disk in the format specified in
+.BR QHisto (5)
+- while not really a model task, there is not really a better place to
+put them.
+
+.SS Printing support
+Instead of painting itself, the JHistView can be abused to paint itself
+to a different \fIQPaintDevice\fP using the \fIpaintOnTo()\fP method. Qt
+provides a similar facility using the \fIrender()\fP method, the difference
+is that our versions uses the size of the target for the layout, whereas
+Qt's render renders based on the bounds of the widget. The solution works
+perfect, although it would have been clearer from a theoretical point of view
+to create a JHistPainter containing the painting code and using that on the
+widget and the printer.
+
+.SH BUGS
+.IP \(bu 2
+Redirects the painting of a QWidget in an absurd way when printing
+.IP \(bu 2
+JHistModel is no QAbstractItemModel
+
+.SH AUTHOR
+QHisto and its manual pages were written by Julian Andres Klode
+<jak@jak-linux.org>.
+
+.SH "SEE ALSO"
+.BR QHisto (1),
+.BR QHisto (5)
