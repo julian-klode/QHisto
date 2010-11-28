@@ -29,11 +29,12 @@
 #include <QStyledItemDelegate>
 
 /**
- * \brief Represents a color item in an QAbstractItemModel.
+ * \brief Represent a color item in an QAbstractItemModel.
  *
- * The QAbstractItemModel contains the name of the color, and
- * this class causes the item to display just the color and on
- * clicks, open a dialog to choose a color.
+ * Represent an item in a QAbstractItemModel that stores a color,
+ * by filling the cell containing the item using the color, and
+ * by presenting the user a color dialog when double clicking on
+ * the color cell.
  */
 class JColorItemDelegate : public QStyledItemDelegate {
 protected:
@@ -46,7 +47,6 @@ protected:
      * \param painter A QPainter that is used for painting.
      * \param option Description of the item (includes a 'rect' member).
      * \param index The index in the model.
-     * \see QStyleOptionViewItem::rect
      */
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const;
@@ -54,9 +54,9 @@ protected:
     /**
      * \brief Called when an editor event is emitted.
      *
-     * Take care of mouse clicks. Leave everything else
-     * to the default handlers. This allows the item to
-     * be editable via keyboard by entering a name.
+     * Popup a color chooser dialog and set the chosen color
+     * if 'event' is a double click. Otherwise, use the default
+     * handling; thus allowing entry via keyboard.
      */
     bool editorEvent(QEvent *event, QAbstractItemModel *model,
                      const QStyleOptionViewItem &option,
