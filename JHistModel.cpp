@@ -180,6 +180,10 @@ void JHistModel::readFromFile(const QString &filename) throw (QString)
         if (line.at(line.size() -1) == '\n')
             line.truncate(line.size() - 1);
         QList<QByteArray> list = line.split('\t');
+
+        // Handle invalid lines, treat missing fields as empty.
+        while (list.size() < 3)
+            list.append("");
         JHistItem *item;
         item = new JHistItem(escape(QString::fromUtf8(list[0]), true),
                              list[1].toDouble(), QString(list[2]));
