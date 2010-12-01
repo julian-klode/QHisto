@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     if (argc > 2) {
         qCritical("Error: QHisto take only the common Qt "
-                  "options and an optional filename.");
+                  "options and an optional file name.");
         return 1;
     } else if (argc == 2) {
         window.open(argv[1]);

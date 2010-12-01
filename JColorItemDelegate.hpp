@@ -54,7 +54,7 @@ protected:
     /**
      * \brief Called when an editor event is emitted.
      *
-     * Popup a color chooser dialog and set the chosen color
+     * Pop-up a color chooser dialog and set the chosen color
      * if 'event' is a double click. Otherwise, use the default
      * handling; thus allowing entry via keyboard.
      */
