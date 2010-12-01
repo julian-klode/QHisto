@@ -38,28 +38,30 @@ enum columns {
     COLUMN_VALUE = 1
 };
 
-static double maximumValue(QAbstractItemModel *model, int column)
+/** \brief Find the maximum value of type T in 'model' at 'column'. */
+template <class T> static T maximumValue(QAbstractItemModel *model, int column)
 {
     double max = 0;
     for (int i = 0; i < model->rowCount(); i++)
-        max = qMax(max, model->index(i, column).data().toDouble());
+        max = qMax(max, model->index(i, column).data().value<T>());
     return max;
 }
 
-static double minimumValue(QAbstractItemModel *model, int column)
+/** \brief Find the minimum value of type T in 'model' at 'column'. */
+template <class T> static T minimumValue(QAbstractItemModel *model, int column)
 {
     double min = 0;
     for (int i = 0; i < model->rowCount(); i++)
-        min = qMin(min, model->index(i, column).data().toDouble());
+        min = qMin(min, model->index(i, column).data().value<T>());
     return min;
 }
 
 int JHistView::getY(double value)
 {
-    const double dist = (maximumValue(model, COLUMN_VALUE) -
-                         minimumValue(model, COLUMN_VALUE));
-    return (0.8 * height() * (maximumValue(model, COLUMN_VALUE) - value) / dist
-            + fontMetrics().height() );
+    const double dist = (maximumValue<double>(model, COLUMN_VALUE) -
+                         minimumValue<double>(model, COLUMN_VALUE));
+    return (0.8 * height() * (maximumValue<double>(model, COLUMN_VALUE) -
+            value) / dist + fontMetrics().height() );
 }
 
 void JHistView::setModel(QAbstractItemModel *model)
@@ -82,13 +84,13 @@ void JHistView::setModel(QAbstractItemModel *model)
 
 double JHistView::paintAxisY(QPainter &painter)
 {
-    const double scale = (maximumValue(model, COLUMN_VALUE) -
-                          minimumValue(model, COLUMN_VALUE));
-    const double maximum = maximumValue(model, COLUMN_VALUE);
+    const double scale = (maximumValue<double>(model, COLUMN_VALUE) -
+                          minimumValue<double>(model, COLUMN_VALUE));
+    const double maximum = maximumValue<double>(model, COLUMN_VALUE);
     const double distance = scale / 4;
     double offset = 0;
 
-    for (double i = minimumValue(model, COLUMN_VALUE); i <= maximum; i =
+    for (double i = minimumValue<double>(model, COLUMN_VALUE); i <= maximum; i =
          qMin(i + distance, maximum)) {
         QString text = QString::number(i, 'g');
 
@@ -98,8 +100,8 @@ double JHistView::paintAxisY(QPainter &painter)
         if (i == maximum)
             break;
     }
-    painter.drawLine(offset, getY(maximumValue(model, COLUMN_VALUE)),
-                     offset, getY(minimumValue(model, COLUMN_VALUE)));
+    painter.drawLine(offset, getY(maximumValue<double>(model, COLUMN_VALUE)),
+                     offset, getY(minimumValue<double>(model, COLUMN_VALUE)));
     return offset + 1;
 }
 
