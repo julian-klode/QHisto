@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
     JHistMainWindow window;
 
     if (argc > 2) {
-        qCritical("Error: QHisto take no other arguments than those defined in "
-                  "qtoptions(7)");
+        qCritical("Error: QHisto take only the common Qt "
+                  "options and an optional filename.");
         return 1;
     } else if (argc == 2) {
         window.open(argv[1]);
