@@ -35,7 +35,9 @@ JHistView::JHistView(QWidget *parent)
 };
 
 enum columns {
-    COLUMN_VALUE = 1
+    COLUMN_LABEL = 0,
+    COLUMN_VALUE = 1,
+    COLUMN_COLOR = 2
 };
 
 /** \brief Find the maximum value of type T in 'model' at 'column'. */
@@ -125,9 +127,9 @@ void JHistView::paintOnTo(QPaintDevice *device)
                               ((1 + rectDist) * model->rowCount()));
 
     for (int i = 0; i < model->rowCount(); i++) {
-        QString label = model->index(i, 0).data().toString();
-        double value = model->index(i, 1).data().toDouble();
-        QColor color = model->index(i, 2).data().value<QColor>();
+        QString label = model->index(i, COLUMN_LABEL).data().toString();
+        double value = model->index(i, COLUMN_VALUE).data().toDouble();
+        QColor color = model->index(i, COLUMN_COLOR).data().value<QColor>();
         // Create a new rectangle using QRect(x, y, width, height)
         QRect rect(offset + (i+1) * rectDist * rectWidth  + i * rectWidth,
                    getY(value),
