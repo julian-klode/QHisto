@@ -39,6 +39,13 @@ struct JHistItem {
     }
 };
 
+JHistModel::~JHistModel()
+
+{
+    qDeleteAll(items);
+    items.clear();
+}
+
 int JHistModel::columnCount(const QModelIndex &parent) const
 {
     return parent.isValid() ? 0 : 3;

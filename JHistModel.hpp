@@ -47,6 +47,7 @@ struct JHistItem;
 class JHistModel : public QAbstractTableModel {
     Q_OBJECT
 public:
+    ~JHistModel();
 
     /** \brief Override: The number of columns (== 3 if parent is invalid). */
     int columnCount(const QModelIndex &parent) const;
