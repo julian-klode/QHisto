@@ -33,7 +33,7 @@
 class QPainter;
 class QPrinter;
 class QPaintEvent;
-class JHistModel;
+class QAbstractItemModel;
 
 /**
  * \brief Class to display the data from a JHistModel.
@@ -61,7 +61,7 @@ public:
      *
      * \param model The model, ownership is not transferred.
      */
-    void setModel(JHistModel *model);
+    void setModel(QAbstractItemModel *model);
 
 protected:
     /**
@@ -80,7 +80,7 @@ public Q_SLOTS:
 
 private:
     /** \brief The model of which data is displayed. */
-    JHistModel *model;
+    QAbstractItemModel *model;
     /** \brief The painter does the painting on the device. */
     QPainter painter;
 
