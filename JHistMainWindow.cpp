@@ -157,7 +157,7 @@ void JHistMainWindow::open(QString defName)
         if (reply == QMessageBox::Retry)
             return open(fileName);
     }
-    setWindowTitle(QString("%1 - QHisto").arg(fileName));
+    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).baseName()));
     isChanged = false;
 }
 
@@ -176,7 +176,7 @@ void JHistMainWindow::save()
             return save();
     }
     isChanged = false;
-    setWindowTitle(QString("%1 - QHisto").arg(fileName));
+    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).baseName()));
 }
 
 void JHistMainWindow::clear()
@@ -209,7 +209,7 @@ void JHistMainWindow::saveAs()
             return saveAs();
     }
     isChanged = false;
-    setWindowTitle(QString("%1 - QHisto").arg(fileName));
+    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).baseName()));
 }
 
 void JHistMainWindow::print()
