@@ -25,6 +25,20 @@ QHisto provides two views to the model. The first one is the self-developed
 rendering itself somewhere else via the \fIpaintOnTo()\fP method which is used
 to provide printing support, for example.
 
+The view maps the value in the model (y) to a coordinate in the view (y'),
+by calling the function y' = \fIgetY(y)\fP. Bars are then drawn from y' to
+getY(0), and the axis marks are written at points P_i(0|y'). All bars are
+separated by 5% of their width. In this free space between the bars, a line
+is drawn; which, together with the borders of the rectangles, form the x-axis.
+
+The getY() method works by dividing the value (y) by the total distance
+(d = max - min), thus calculating the relative position in percent
+of the distance. Because our coordinate system is upside down, we actually
+use (max - y) instead of y. The calculated percentage is now multiplied
+with the height of the widget, thus follows: y' = (max - y) / (max - min) [in
+a simple interpretation, the real one limits the result to ensure it fits into
+the widget correctly].
+
 QHisto also provides a \fIQTableView\fP that allows for modification of the data
 in the model. This table has three columns. The first two represent the label
 and the value, the third one represents the color. Normally, the color would
