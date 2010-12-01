@@ -81,11 +81,6 @@ public:
     /** \brief Override: Return the headers. */
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-    /** \brief The minimum value stored in the model, or 0, whichever is less */
-    double minimumValue() const;
-    /** \brief The maximum value stored in the model, or 0, whichever is more */
-    double maximumValue() const;
-
     /**
      * \brief Read the data from the given file.
      *

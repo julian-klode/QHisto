@@ -129,23 +129,6 @@ QVariant JHistModel::headerData(int section, Qt::Orientation orientation, int ro
     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
-double JHistModel::maximumValue() const
-{
-    double max = 0;
-    for (int i = 0; i < items.size(); i++)
-        max = qMax(max, items[i]->value);
-    return max;
-}
-
-double JHistModel::minimumValue() const
-{
-    double min = 0;
-    for (int i = 0; i < items.size(); i++)
-        min = qMin(min, items[i]->value);
-    return min;
-}
-
-
 /* Now comes the simple read-write support */
 
 /**
