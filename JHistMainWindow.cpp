@@ -88,13 +88,16 @@ JHistMainWindow::JHistMainWindow()
     setLayout(layout);
     tableview.setItemDelegateForColumn (2, &color_delegate);
 
-
+    setWindowTitle("QHisto");
     connect(&model, SIGNAL(changed()), this, SLOT(setChanged()));
     isChanged = false;
 }
 
 void JHistMainWindow::setChanged() {
     isChanged = true;
+
+    if (windowTitle().at(0) != '*')
+        setWindowTitle(QString("*%1").arg(windowTitle()));
 }
 
 void JHistMainWindow::closeEvent(QCloseEvent *event)
@@ -154,6 +157,8 @@ void JHistMainWindow::open(QString defName)
         if (reply == QMessageBox::Retry)
             return open(fileName);
     }
+    setWindowTitle(QString("%1 - QHisto").arg(fileName));
+    isChanged = false;
 }
 
 void JHistMainWindow::save()
@@ -171,6 +176,7 @@ void JHistMainWindow::save()
             return save();
     }
     isChanged = false;
+    setWindowTitle(QString("%1 - QHisto").arg(fileName));
 }
 
 void JHistMainWindow::clear()
@@ -179,6 +185,8 @@ void JHistMainWindow::clear()
         save();
     model.clear();
     fileName = "";
+    isChanged = false;
+    setWindowTitle(QString("QHisto"));
 }
 
 void JHistMainWindow::saveAs()
@@ -201,6 +209,7 @@ void JHistMainWindow::saveAs()
             return saveAs();
     }
     isChanged = false;
+    setWindowTitle(QString("%1 - QHisto").arg(fileName));
 }
 
 void JHistMainWindow::print()
