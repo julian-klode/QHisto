@@ -157,7 +157,7 @@ void JHistMainWindow::open(QString defName)
         if (reply == QMessageBox::Retry)
             return open(fileName);
     }
-    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).baseName()));
+    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).fileName()));
     isChanged = false;
 }
 
@@ -176,7 +176,7 @@ void JHistMainWindow::save()
             return save();
     }
     isChanged = false;
-    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).baseName()));
+    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).fileName()));
 }
 
 void JHistMainWindow::clear()
@@ -209,7 +209,7 @@ void JHistMainWindow::saveAs()
             return saveAs();
     }
     isChanged = false;
-    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).baseName()));
+    setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).fileName()));
 }
 
 void JHistMainWindow::print()
@@ -218,7 +218,7 @@ void JHistMainWindow::print()
     QPrinter *printer = dialog.printer();
     printer->setCreator("QHisto 1 (C) 2010 Julian Andres Klode");
     if (!fileName.isEmpty())
-        printer->setDocName(QFileInfo(fileName).baseName());
+        printer->setDocName(QFileInfo(fileName).fileName());
     else
         printer->setDocName("QHisto");
 
