@@ -39,8 +39,12 @@ class QAbstractItemModel;
  * \brief Class to display the data from a JHistModel.
  *
  * This widget is responsible for painting the bars corresponding
- * to the values in the JHistModel. The widget can be resized,
- * bars and axises will be resized as well.
+ * to the values in the model. The first column is used as a QString
+ * representing a label, the second as a double representing the
+ * value, and the third column is a QColor defining the color of
+ * the bar.
+ *
+ * The widget can be resized, bars and axises will be resized as well.
  *
  * \see JHistModel
  */
