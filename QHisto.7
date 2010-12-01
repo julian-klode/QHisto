@@ -11,14 +11,13 @@ ones responsible for presenting the models. Furthermore, views use so-called
 
 .SH THE MODELS
 In QHisto's case, the world is a \fIJHistModel\fP. The JHistModel class is an
-abstract base class that defines the interface which views can use to
-access the data. The JHistModel interface is used by JHistView, more
-about that later.
+that defines the interface which views can use to access the data. It is
+a subclass of QAbstractTableModel and thus QAbstractItemModel, an abstract
+class representing data to views.
 
-Derived from JHistModel is a \fIJHistItemModel\fP. This model implements the
-interface of JHistModel using a \fIQStandardItemModel\fP for storage. It also
-provides access to the QStandardItemModel via the itemsModel() method,
-so it can be used in a table view.
+The storage is implemented as a QList of pointers to a structure containing
+the label (as QString), the value (as double), and the color (as QColor) of
+a single bar in the histogram.
 
 .SH THE VIEWS
 QHisto provides two views to the model. The first one is the self-developed
