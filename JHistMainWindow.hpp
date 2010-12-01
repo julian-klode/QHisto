@@ -54,6 +54,7 @@ private Q_SLOTS:
     void saveAs();
     /** \brief Called when the 'File|Print' menu item is activated. */
     void print();
+    void setChanged();
 public Q_SLOTS:
     /**
      * \brief Open a file for reading.
@@ -75,4 +76,10 @@ private:
     QPushButton button_remove;
     JColorItemDelegate color_delegate;
     QString fileName;
+    /** \brief true if the model has changed since last save. */
+    bool isChanged;
+    /** \brief ask the user whether they want to save. */
+    bool maybeSave();
+    /** \brief called when window should be closed. */
+    void closeEvent(QCloseEvent *event);
 };

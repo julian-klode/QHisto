@@ -37,6 +37,7 @@
 #include <QHeaderView>
 #include <QPrinter>
 #include <QSplitter>
+#include <QCloseEvent>
 
 JHistMainWindow::JHistMainWindow()
     : button_add("&Add"), button_remove("&Remove")
@@ -86,6 +87,30 @@ JHistMainWindow::JHistMainWindow()
     layout->setMenuBar(menuBar);
     setLayout(layout);
     tableview.setItemDelegateForColumn (2, &color_delegate);
+
+
+    connect(&model, SIGNAL(changed()), this, SLOT(setChanged()));
+    isChanged = false;
+}
+
+void JHistMainWindow::setChanged() {
+    isChanged = true;
+}
+
+void JHistMainWindow::closeEvent(QCloseEvent *event)
+{
+    if (isChanged && maybeSave())
+        save();
+
+    event->accept();
+}
+
+bool JHistMainWindow::maybeSave() {
+    QMessageBox::StandardButton button;
+    button = QMessageBox::question (this, "Do you want to save?",
+                                    tr("Your data has been modified. Save?"),
+                                    QMessageBox::Yes | QMessageBox::No);
+    return (button == QMessageBox::Yes);
 }
 
 void JHistMainWindow::about()
@@ -109,6 +134,8 @@ void JHistMainWindow::remove()
 
 void JHistMainWindow::open(QString defName)
 {
+    if (isChanged && maybeSave())
+        save();
     if (defName.isEmpty())
         fileName = QFileDialog::getOpenFileName(this, tr("Save File"), "",
                                                 tr("QHisto files (*.qhisto)"));
@@ -143,10 +170,13 @@ void JHistMainWindow::save()
         if (reply == QMessageBox::Retry)
             return save();
     }
+    isChanged = false;
 }
 
 void JHistMainWindow::clear()
 {
+    if (isChanged && maybeSave())
+        save();
     model.clear();
     fileName = "";
 }
@@ -170,6 +200,7 @@ void JHistMainWindow::saveAs()
         if (reply == QMessageBox::Retry)
             return saveAs();
     }
+    isChanged = false;
 }
 
 void JHistMainWindow::print()
