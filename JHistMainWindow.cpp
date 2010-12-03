@@ -191,7 +191,7 @@ void JHistMainWindow::clear()
 
 void JHistMainWindow::saveAs()
 {
-    fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "",
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "",
                                             tr("QHisto files (*.qhisto)"));
     if (fileName.isEmpty())
         return;
@@ -208,6 +208,7 @@ void JHistMainWindow::saveAs()
         if (reply == QMessageBox::Retry)
             return saveAs();
     }
+    this->fileName = fileName;
     isChanged = false;
     setWindowTitle(QString("%1 - QHisto").arg(QFileInfo(fileName).fileName()));
 }
