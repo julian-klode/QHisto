@@ -1,6 +1,6 @@
 /* JHistMainWindow.cpp - Implementation of the main window.
  *
- * Copyright (C) 2010 Julian Andres Klode <jak@jak-linux.org>
+ * Copyright (C) 2010, 2014 Julian Andres Klode <jak@jak-linux.org>
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation files
@@ -44,7 +44,11 @@ JHistMainWindow::JHistMainWindow()
 {
     setWindowIcon(QIcon(QPixmap(QHisto_xpm)));
     histview.setModel(&model);
+#if QT_VERSION >= 0x050000
+    tableview.horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+#else
     tableview.horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+#endif
     tableview.setModel(&model);
     // Add a new row if the 'Add' button is clicked.
     model.connect(&button_add, SIGNAL(clicked()), SLOT(add()));
